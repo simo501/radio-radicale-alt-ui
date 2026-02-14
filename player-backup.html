@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Radicale Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.6); }
+    }
+    .bar {
+      animation: wave 1s ease-in-out infinite;
+    }
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+    .bar:nth-child(6) { animation-delay: 0.5s; }
+    .bar:nth-child(7) { animation-delay: 0.6s; }
+    
+    /* Fix per selezione testo su mobile */
+    input[type="text"] {
+      -webkit-user-select: text;
+      user-select: text;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-orange-500 via-orange-600 to-red-700 min-h-screen flex items-center justify-center p-3 sm:p-5">
+  
+  <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 w-full max-w-lg">
+    
+    <!-- Header -->
+    <div class="text-center mb-6 sm:mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">Radio Radicale Player</h1>
+      <p class="text-gray-500 text-xs sm:text-sm">Streaming Audio</p>
+    </div>
+
+    <!-- URL Input -->
+    <div class="mb-5 sm:mb-6">
+      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+        URL Pagina Radio Radicale
+      </label>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <div class="relative flex-1">
+          <input 
+            type="text" 
+            id="pageUrlInput"
+            placeholder="https://www.radioradicale.it/scheda/..."
+            class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-xs sm:text-sm pr-8"
+          >
+          <button 
+            id="clearBtn"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden"
+            title="Cancella"
+          >
+            ✕
+          </button>
+        </div>
+        <button 
+          id="loadBtn"
+          class="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap text-sm sm:text-base"
+        >
+          Carica
+        </button>
+      </div>
+      <p class="text-xs text-gray-500 mt-2">
+        Incolla l'URL di una pagina Radio Radicale per estrarre lo stream
+      </p>
+    </div>
+
+    <!-- Track Selector -->
+    <div class="mb-5 sm:mb-6 hidden" id="trackSelectorContainer">
+      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+        Seleziona traccia audio
+      </label>
+      <div class="space-y-2" id="trackList">
+        <!-- Le tracce verranno inserite qui dinamicamente -->
+      </div>
+    </div>
+
+    <!-- Waveform -->
+    <div class="flex items-center justify-center gap-1 h-12 sm:h-16 mb-6 sm:mb-8">
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-4 sm:h-5 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-7 sm:h-9 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-11 sm:h-14 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-8 sm:h-10 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-10 sm:h-12 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-6 sm:h-8 transition-opacity duration-300"></div>
+      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-9 sm:h-11 transition-opacity duration-300"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-5 sm:mb-6">
+      <div class="flex justify-between mb-2 text-xs text-gray-600 tabular-nums">
+        <span id="currentTime">00:00</span>
+        <span id="duration">--:--</span>
+      </div>
+      <div class="relative h-2 bg-gray-200 rounded-full cursor-pointer group" id="progressContainer">
+        <div class="absolute h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all" 
+             id="progressBar" style="width: 0%"></div>
+        <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-orange-500 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none" 
+             id="progressHandle" style="left: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center gap-4 sm:gap-5 mb-5 sm:mb-6">
+      <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" 
+              id="playBtn"
+              disabled>
+        ▶
+      </button>
+      <div class="flex-1 text-center">
+        <div class="text-xs sm:text-sm text-gray-600" id="status">Inserisci un URL</div>
+      </div>
+    </div>
+
+    <!-- Volume Control -->
+    <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 p-3 sm:p-4 bg-gray-50 rounded-xl">
+      <span class="text-lg sm:text-xl cursor-pointer select-none w-6 text-center" id="volumeIcon">🔊</span>
+      <input type="range" 
+             class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-orange-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-orange-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" 
+             id="volumeSlider" 
+             min="0" 
+             max="100" 
+             value="80">
+    </div>
+
+    <!-- Speed Control -->
+    <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 p-3 sm:p-4 bg-gray-50 rounded-xl">
+      <span class="text-lg sm:text-xl select-none w-6 text-center">⚡</span>
+      <input type="range" 
+             class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" 
+             id="speedSlider" 
+             min="50" 
+             max="250" 
+             step="25"
+             value="100">
+      <span class="text-xs sm:text-sm font-semibold text-red-600 w-10 sm:w-12 text-right tabular-nums" id="speedDisplay">1.0x</span>
+    </div>
+
+    <!-- Info Box -->
+    <div class="bg-gray-50 p-3 sm:p-4 rounded-xl text-center" id="infoBox">
+      <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Inserisci l'URL di una pagina Radio Radicale per iniziare</p>
+    </div>
+
+    <!-- Loading -->
+    <div class="hidden text-center text-orange-600 text-xs sm:text-sm mt-3" id="loading">
+      <div class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-orange-600 border-t-transparent mr-2"></div>
+      <span id="loadingText">Caricamento...</span>
+    </div>
+
+    <!-- Success Message -->
+    <div class="hidden bg-green-50 text-green-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="success"></div>
+
+    <!-- Error -->
+    <div class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="error"></div>
+
+    <audio id="video" preload="metadata"></audio>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const playBtn = document.getElementById('playBtn');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const durationDisplay = document.getElementById('duration');
+    const statusDisplay = document.getElementById('status');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const speedSlider = document.getElementById('speedSlider');
+    const speedDisplay = document.getElementById('speedDisplay');
+    const loading = document.getElementById('loading');
+    const loadingText = document.getElementById('loadingText');
+    const errorBox = document.getElementById('error');
+    const successBox = document.getElementById('success');
+    const bars = document.querySelectorAll('.bar');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressHandle = document.getElementById('progressHandle');
+    const pageUrlInput = document.getElementById('pageUrlInput');
+    const loadBtn = document.getElementById('loadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const infoBox = document.getElementById('infoBox');
+    const trackSelectorContainer = document.getElementById('trackSelectorContainer');
+    const trackList = document.getElementById('trackList');
+    
+    let isPlaying = false;
+    let isSeeking = false;
+    let currentHls = null;
+    let availableTracks = [];
+    let currentTrackIndex = 0;
+
+    // Mostra/nascondi pulsante clear
+    pageUrlInput.addEventListener('input', () => {
+      if (pageUrlInput.value.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    });
+
+    // Pulsante clear
+    clearBtn.addEventListener('click', () => {
+      pageUrlInput.value = '';
+      clearBtn.classList.add('hidden');
+      pageUrlInput.focus();
+    });
+
+    // Fix selezione su mobile - triplo tap per selezionare tutto
+    let lastTapTime = 0;
+    let tapCount = 0;
+    
+    pageUrlInput.addEventListener('click', (e) => {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTapTime;
+      
+      if (tapLength < 500 && tapLength > 0) {
+        tapCount++;
+        if (tapCount === 2) {
+          // Triplo tap - seleziona tutto
+          pageUrlInput.select();
+          tapCount = 0;
+        }
+      } else {
+        tapCount = 1;
+      }
+      
+      lastTapTime = currentTime;
+    });
+
+    // Long press per selezionare tutto su mobile
+    let pressTimer;
+    pageUrlInput.addEventListener('touchstart', (e) => {
+      pressTimer = setTimeout(() => {
+        pageUrlInput.select();
+      }, 500);
+    });
+
+    pageUrlInput.addEventListener('touchend', () => {
+      clearTimeout(pressTimer);
+    });
+
+    pageUrlInput.addEventListener('touchmove', () => {
+      clearTimeout(pressTimer);
+    });
+
+    // Formatta tempo in mm:ss
+    function formatTime(seconds) {
+      if (isNaN(seconds) || !isFinite(seconds)) return '--:--';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // Estrai tutte le tracce dalla pagina
+    async function extractTracks(pageUrl) {
+      try {
+        loadingText.textContent = 'Estrazione tracce audio...';
+        
+        // Prova prima senza proxy
+        let html;
+        try {
+          const response = await fetch(pageUrl);
+          html = await response.text();
+        } catch (corsError) {
+          // Se fallisce per CORS, usa un proxy
+          loadingText.textContent = 'Uso proxy CORS...';
+          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(pageUrl);
+          const response = await fetch(proxyUrl);
+          html = await response.text();
+        }
+        
+        // Estrai Drupal.settings.RRscheda.playlist
+        const drupalMatch = html.match(/Drupal\.settings\s*,\s*({[\s\S]*?})\);/);
+        if (drupalMatch) {
+          try {
+            const settingsJson = drupalMatch[1];
+            const settings = JSON.parse(settingsJson);
+            
+            if (settings.RRscheda && settings.RRscheda.playlist) {
+              const playlist = settings.RRscheda.playlist;
+              
+              if (Array.isArray(playlist) && playlist.length > 0) {
+                const tracks = playlist.map((item, index) => {
+                  if (item.sources && item.sources.length > 0) {
+                    return {
+                      url: item.sources[0].src,
+                      title: item.title || `Traccia ${index + 1}`,
+                      index: index
+                    };
+                  }
+                  return null;
+                }).filter(track => track !== null);
+                
+                if (tracks.length > 0) {
+                  return tracks;
+                }
+              }
+            }
+          } catch (parseError) {
+            console.warn('Errore nel parsing Drupal.settings:', parseError);
+          }
+        }
+        
+        throw new Error('Nessuna traccia trovata nella pagina');
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    // Mostra selettore tracce
+    function displayTrackSelector(tracks) {
+      availableTracks = tracks;
+      trackList.innerHTML = '';
+      
+      if (tracks.length === 1) {
+        // Se c'è solo una traccia, caricala direttamente
+        trackSelectorContainer.classList.add('hidden');
+        loadTrack(0);
+        return;
+      }
+      
+      // Mostra il selettore
+      trackSelectorContainer.classList.remove('hidden');
+      
+      tracks.forEach((track, index) => {
+        const trackButton = document.createElement('button');
+        trackButton.className = 'w-full text-left px-4 py-3 rounded-lg border-2 transition-all text-sm';
+        
+        if (index === currentTrackIndex) {
+          trackButton.className += ' border-orange-500 bg-orange-50 text-orange-700 font-medium';
+        } else {
+          trackButton.className += ' border-gray-200 hover:border-orange-300 hover:bg-gray-50';
+        }
+        
+        trackButton.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-xs">
+              ${index + 1}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-gray-800 truncate">${track.title}</div>
+              <div class="text-xs text-gray-500 mt-0.5">Parte ${index + 1} di ${tracks.length}</div>
+            </div>
+            ${index === currentTrackIndex ? '<span class="text-orange-600 text-xs">▶ In riproduzione</span>' : ''}
+          </div>
+        `;
+        
+        trackButton.addEventListener('click', () => {
+          currentTrackIndex = index;
+          loadTrack(index);
+          displayTrackSelector(tracks); // Aggiorna UI
+        });
+        
+        trackList.appendChild(trackButton);
+      });
+    }
+
+    // Carica una traccia specifica
+    function loadTrack(index) {
+      if (index < 0 || index >= availableTracks.length) return;
+      
+      const track = availableTracks[index];
+      currentTrackIndex = index;
+      
+      initPlayer(track.url);
+      
+      infoBox.innerHTML = `
+        <p class="text-gray-700 text-sm font-medium mb-2">${track.title}</p>
+        <p class="text-gray-500 text-xs">Traccia ${index + 1} di ${availableTracks.length}</p>
+      `;
+    }
+
+    // Inizializza player con nuovo URL
+    function initPlayer(videoSrc) {
+      // Pulisci player precedente
+      if (currentHls) {
+        currentHls.destroy();
+        currentHls = null;
+      }
+      
+      if (video.src) {
+        video.pause();
+        video.src = '';
+      }
+      
+      // Reset UI
+      isPlaying = false;
+      playBtn.innerHTML = '▶';
+      progressBar.style.width = '0%';
+      progressHandle.style.left = '0%';
+      currentTimeDisplay.textContent = '00:00';
+      durationDisplay.textContent = '--:--';
+      
+      loadingText.textContent = 'Inizializzazione player...';
+      loading.classList.remove('hidden');
+      
+      if (Hls.isSupported()) {
+        currentHls = new Hls();
+        currentHls.loadSource(videoSrc);
+        currentHls.attachMedia(video);
+        
+        currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
+          statusDisplay.textContent = 'Pronto';
+          loading.classList.add('hidden');
+          playBtn.disabled = false;
+          
+          successBox.textContent = '✓ Traccia caricata con successo!';
+          successBox.classList.remove('hidden');
+          
+          setTimeout(() => {
+            successBox.classList.add('hidden');
+          }, 3000);
+        });
+
+        currentHls.on(Hls.Events.ERROR, function(event, data) {
+          if (data.fatal) {
+            errorBox.textContent = 'Errore nel caricamento dello stream: ' + (data.details || 'unknown');
+            errorBox.classList.remove('hidden');
+            loading.classList.add('hidden');
+            playBtn.disabled = true;
+          }
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = videoSrc;
+        video.addEventListener('loadedmetadata', () => {
+          statusDisplay.textContent = 'Pronto';
+          loading.classList.add('hidden');
+          playBtn.disabled = false;
+          
+          successBox.textContent = '✓ Traccia caricata con successo!';
+          successBox.classList.remove('hidden');
+          
+          setTimeout(() => {
+            successBox.classList.add('hidden');
+          }, 3000);
+        }, { once: true });
+      } else {
+        errorBox.textContent = 'Il tuo browser non supporta HLS';
+        errorBox.classList.remove('hidden');
+        loading.classList.add('hidden');
+      }
+    }
+
+    // Carica stream da URL pagina
+    loadBtn.addEventListener('click', async () => {
+      const pageUrl = pageUrlInput.value.trim();
+      
+      if (!pageUrl) {
+        errorBox.textContent = 'Inserisci un URL valido';
+        errorBox.classList.remove('hidden');
+        return;
+      }
+      
+      // Valida URL
+      if (!pageUrl.includes('radioradicale.it')) {
+        errorBox.textContent = 'Inserisci un URL di Radio Radicale';
+        errorBox.classList.remove('hidden');
+        return;
+      }
+      
+      // Reset messaggi e UI
+      errorBox.classList.add('hidden');
+      successBox.classList.add('hidden');
+      trackSelectorContainer.classList.add('hidden');
+      
+      // Mostra loading
+      loading.classList.remove('hidden');
+      loadBtn.disabled = true;
+      playBtn.disabled = true;
+      statusDisplay.textContent = 'Caricamento...';
+      
+      try {
+        const tracks = await extractTracks(pageUrl);
+        console.log('Tracce trovate:', tracks);
+        
+        if (tracks.length === 0) {
+          throw new Error('Nessuna traccia trovata');
+        }
+        
+        // Mostra selettore tracce
+        displayTrackSelector(tracks);
+        
+        loading.classList.add('hidden');
+        
+      } catch (error) {
+        console.error('Errore:', error);
+        errorBox.textContent = error.message || 'Errore nel caricamento delle tracce';
+        errorBox.classList.remove('hidden');
+        loading.classList.add('hidden');
+        loadBtn.disabled = false;
+        statusDisplay.textContent = 'Errore';
+      } finally {
+        loadBtn.disabled = false;
+      }
+    });
+
+    // Permetti invio con Enter
+    pageUrlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        loadBtn.click();
+      }
+    });
+
+    // Play/Pause
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        video.pause();
+      } else {
+        video.play().catch(err => {
+          errorBox.textContent = 'Errore nella riproduzione: ' + err.message;
+          errorBox.classList.remove('hidden');
+        });
+      }
+    });
+
+    video.addEventListener('play', () => {
+      isPlaying = true;
+      playBtn.innerHTML = '⏸';
+      statusDisplay.textContent = 'In riproduzione';
+      bars.forEach(bar => bar.classList.remove('opacity-30'));
+    });
+
+    video.addEventListener('pause', () => {
+      isPlaying = false;
+      playBtn.innerHTML = '▶';
+      statusDisplay.textContent = 'In pausa';
+      bars.forEach(bar => bar.classList.add('opacity-30'));
+    });
+
+    video.addEventListener('ended', () => {
+      // Auto-play traccia successiva se disponibile
+      if (currentTrackIndex < availableTracks.length - 1) {
+        currentTrackIndex++;
+        loadTrack(currentTrackIndex);
+        displayTrackSelector(availableTracks);
+        
+        // Auto-play dopo caricamento
+        video.addEventListener('loadedmetadata', () => {
+          video.play();
+        }, { once: true });
+      }
+    });
+
+    // Durata caricata
+    video.addEventListener('loadedmetadata', () => {
+      durationDisplay.textContent = formatTime(video.duration);
+    });
+
+    video.addEventListener('durationchange', () => {
+      durationDisplay.textContent = formatTime(video.duration);
+    });
+
+    // Aggiorna progress bar
+    video.addEventListener('timeupdate', () => {
+      if (!isSeeking && video.duration) {
+        const percent = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = percent + '%';
+        progressHandle.style.left = percent + '%';
+        currentTimeDisplay.textContent = formatTime(video.currentTime);
+      }
+    });
+
+    // Seek functionality
+    progressContainer.addEventListener('mousedown', startSeeking);
+    progressContainer.addEventListener('touchstart', startSeeking);
+
+    function startSeeking(e) {
+      e.preventDefault();
+      isSeeking = true;
+      progressHandle.classList.remove('opacity-0', 'group-hover:opacity-100');
+      progressHandle.classList.add('opacity-100', 'scale-110');
+      seek(e);
+      
+      document.addEventListener('mousemove', seek);
+      document.addEventListener('touchmove', seek);
+      document.addEventListener('mouseup', stopSeeking);
+      document.addEventListener('touchend', stopSeeking);
+    }
+
+    function seek(e) {
+      const rect = progressContainer.getBoundingClientRect();
+      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      let percent = (clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+      
+      const newTime = percent * video.duration;
+      
+      if (video.duration && isFinite(newTime)) {
+        progressBar.style.width = (percent * 100) + '%';
+        progressHandle.style.left = (percent * 100) + '%';
+        currentTimeDisplay.textContent = formatTime(newTime);
+      }
+    }
+
+    function stopSeeking(e) {
+      if (isSeeking) {
+        const rect = progressContainer.getBoundingClientRect();
+        const clientX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
+        let percent = (clientX - rect.left) / rect.width;
+        percent = Math.max(0, Math.min(1, percent));
+        
+        const newTime = percent * video.duration;
+        
+        if (video.duration && isFinite(newTime)) {
+          video.currentTime = newTime;
+        }
+        
+        isSeeking = false;
+        progressHandle.classList.add('opacity-0', 'group-hover:opacity-100');
+        progressHandle.classList.remove('opacity-100', 'scale-110');
+        
+        document.removeEventListener('mousemove', seek);
+        document.removeEventListener('touchmove', seek);
+        document.removeEventListener('mouseup', stopSeeking);
+        document.removeEventListener('touchend', stopSeeking);
+      }
+    }
+
+    // Volume
+    volumeSlider.addEventListener('input', (e) => {
+      const volume = e.target.value / 100;
+      video.volume = volume;
+      updateVolumeIcon(volume);
+    });
+
+    volumeIcon.addEventListener('click', () => {
+      if (video.volume > 0) {
+        video.dataset.previousVolume = video.volume;
+        video.volume = 0;
+        volumeSlider.value = 0;
+      } else {
+        const previousVolume = video.dataset.previousVolume || 0.8;
+        video.volume = previousVolume;
+        volumeSlider.value = previousVolume * 100;
+      }
+      updateVolumeIcon(video.volume);
+    });
+
+    function updateVolumeIcon(volume) {
+      if (volume === 0) {
+        volumeIcon.textContent = '🔇';
+      } else if (volume < 0.5) {
+        volumeIcon.textContent = '🔉';
+      } else {
+        volumeIcon.textContent = '🔊';
+      }
+    }
+
+    video.volume = 0.8;
+
+    // Playback Speed
+    speedSlider.addEventListener('input', (e) => {
+      const speed = e.target.value / 100;
+      video.playbackRate = speed;
+      speedDisplay.textContent = speed.toFixed(1) + 'x';
+    });
+
+    // Imposta velocità iniziale
+    video.playbackRate = 1.0;
+  </script>
+</body>
+</html>
