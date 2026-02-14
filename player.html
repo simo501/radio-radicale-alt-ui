@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radio Radicale UNOFFICIAL player</title>
+  <title>Radio Radicale Player</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -34,8 +34,9 @@
     
     <!-- Header -->
     <div class="text-center mb-6 sm:mb-8">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2" id="mainTitle">Radio Radicale UNOFFICIAL player</h1>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2" id="mainTitle">Radio Radicale Player</h1>
       <p class="text-gray-500 text-xs sm:text-sm" id="mainSubtitle">Streaming Audio</p>
+      <p class="text-gray-400 text-xs mt-1 hidden" id="curaDi"></p>
     </div>
 
     <!-- URL Input -->
@@ -155,6 +156,7 @@
     const interventiList = $('interventiList');
     const mainTitle = $('mainTitle');
     const mainSubtitle = $('mainSubtitle');
+    const curaDi = $('curaDi');
     
     let isPlaying = false;
     let isSeeking = false;
@@ -163,7 +165,6 @@
     let currentTrackIndex = 0;
     let interventi = [];
 
-    // Input helpers
     pageUrlInput.addEventListener('input', () => clearBtn.classList.toggle('hidden', !pageUrlInput.value));
     clearBtn.addEventListener('click', () => {
       pageUrlInput.value = '';
@@ -171,7 +172,6 @@
       pageUrlInput.focus();
     });
 
-    // Mobile text selection
     let lastTap = 0;
     pageUrlInput.addEventListener('click', () => {
       const now = Date.now();
@@ -184,7 +184,6 @@
     pageUrlInput.addEventListener('touchend', () => clearTimeout(longPress));
     pageUrlInput.addEventListener('touchmove', () => clearTimeout(longPress));
 
-    // Format time
     const formatTime = seconds => {
       if (!isFinite(seconds)) return '--:--:--';
       const h = Math.floor(seconds / 3600);
@@ -193,7 +192,6 @@
       return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}` : `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
 
-    // Parse duration
     const parseDuration = str => {
       const h = (str.match(/(\d+)\s*ora/) || [0, 0])[1] * 3600;
       const m = (str.match(/(\d+)\s*min/) || [0, 0])[1] * 60;
@@ -201,13 +199,18 @@
       return parseInt(h) + parseInt(m) + parseInt(s);
     };
 
-    // Update main title
-    const updateTitle = (title, index, total) => {
-      mainTitle.textContent = title || 'Radio Radicale UNOFFICIAL player';
+    const updateTitle = (title, index, total, curator) => {
+      mainTitle.textContent = title || 'Radio Radicale Player';
       mainSubtitle.textContent = total > 0 ? `Traccia ${index + 1} di ${total}` : 'Streaming Audio';
+      
+      if (curator) {
+        curaDi.textContent = curator;
+        curaDi.classList.remove('hidden');
+      } else {
+        curaDi.classList.add('hidden');
+      }
     };
 
-    // Extract data
     async function extractData(pageUrl) {
       loadingText.textContent = 'Estrazione dati...';
       
@@ -241,6 +244,13 @@
             });
           }
         });
+      }
+      
+      // Estrai "A cura di"
+      let curatore = '';
+      const curaDiMatch = html.match(/<div class="secondo_suffisso[^"]*">[\s\S]*?<span class=['"]elenco-nomi-label['"]>A cura di<\/span>&nbsp;([^<]+)<\/div>/);
+      if (curaDiMatch) {
+        curatore = 'A cura di ' + curaDiMatch[1].trim();
       }
       
       // Interventi
@@ -299,10 +309,9 @@
         }
       }
       
-      return { tracks, interventi };
+      return { tracks, interventi, curatore };
     }
 
-    // Display interventi
     function displayInterventi(data) {
       interventi = data;
       if (!data.length) {
@@ -353,7 +362,6 @@
       });
     }
 
-    // Display track selector
     function displayTrackSelector(tracks) {
       availableTracks = tracks;
       if (tracks.length === 1) {
@@ -390,17 +398,15 @@
       });
     }
 
-    // Load track
     function loadTrack(index, startTime = 0) {
       if (index < 0 || index >= availableTracks.length) return;
       
       const track = availableTracks[index];
       currentTrackIndex = index;
-      updateTitle(track.title, index, availableTracks.length);
+      updateTitle(track.title, index, availableTracks.length, track.curator);
       initPlayer(track.url, startTime);
     }
 
-    // Init player
     function initPlayer(src, startTime = 0) {
       if (currentHls) {
         currentHls.destroy();
@@ -454,7 +460,6 @@
       }
     }
 
-    // Load button
     loadBtn.addEventListener('click', async () => {
       const url = pageUrlInput.value.trim();
       if (!url) return errorBox.textContent = 'Inserisci un URL', errorBox.classList.remove('hidden');
@@ -473,6 +478,9 @@
         const data = await extractData(url);
         if (!data.tracks.length) throw new Error('Nessuna traccia');
         
+        // Salva il curatore nelle tracce
+        data.tracks.forEach(t => t.curator = data.curatore);
+        
         displayTrackSelector(data.tracks);
         displayInterventi(data.interventi);
         loadTrack(0);
@@ -489,7 +497,6 @@
 
     pageUrlInput.addEventListener('keypress', e => e.key === 'Enter' && loadBtn.click());
 
-    // Play/Pause
     playBtn.addEventListener('click', () => isPlaying ? video.pause() : video.play());
     video.addEventListener('play', () => {
       isPlaying = true;
@@ -512,7 +519,6 @@
       }
     });
 
-    // Time update
     video.addEventListener('loadedmetadata', () => durationDisplay.textContent = formatTime(video.duration));
     video.addEventListener('durationchange', () => durationDisplay.textContent = formatTime(video.duration));
     video.addEventListener('timeupdate', () => {
@@ -524,7 +530,6 @@
       }
     });
 
-    // Seek
     const seek = e => {
       const rect = progressContainer.getBoundingClientRect();
       const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
@@ -568,7 +573,6 @@
     progressContainer.addEventListener('mousedown', startSeeking);
     progressContainer.addEventListener('touchstart', startSeeking);
 
-    // Speed
     speedSlider.addEventListener('input', e => {
       const speed = e.target.value / 100;
       video.playbackRate = speed;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radio Radicale Player</title>
+  <title>Radio Radicale UNOFFICIAL player</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -22,7 +22,6 @@
     .bar:nth-child(6) { animation-delay: 0.5s; }
     .bar:nth-child(7) { animation-delay: 0.6s; }
     
-    /* Fix per selezione testo su mobile */
     input[type="text"] {
       -webkit-user-select: text;
       user-select: text;
@@ -31,19 +30,17 @@
 </head>
 <body class="bg-gradient-to-br from-orange-500 via-orange-600 to-red-700 min-h-screen flex items-center justify-center p-3 sm:p-5">
   
-  <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 w-full max-w-lg">
+  <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 w-full max-w-4xl">
     
     <!-- Header -->
     <div class="text-center mb-6 sm:mb-8">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">Radio Radicale Player</h1>
-      <p class="text-gray-500 text-xs sm:text-sm">Streaming Audio</p>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 sm:mb-2" id="mainTitle">Radio Radicale UNOFFICIAL player</h1>
+      <p class="text-gray-500 text-xs sm:text-sm" id="mainSubtitle">Streaming Audio</p>
     </div>
 
     <!-- URL Input -->
     <div class="mb-5 sm:mb-6">
-      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-        URL Pagina Radio Radicale
-      </label>
+      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">URL Pagina Radio Radicale</label>
       <div class="flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <input 
@@ -52,332 +49,359 @@
             placeholder="https://www.radioradicale.it/scheda/..."
             class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-xs sm:text-sm pr-8"
           >
-          <button 
-            id="clearBtn"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden"
-            title="Cancella"
-          >
-            ✕
-          </button>
+          <button id="clearBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">✕</button>
         </div>
-        <button 
-          id="loadBtn"
-          class="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap text-sm sm:text-base"
-        >
+        <button id="loadBtn" class="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap text-sm sm:text-base">
           Carica
         </button>
       </div>
-      <p class="text-xs text-gray-500 mt-2">
-        Incolla l'URL di una pagina Radio Radicale per estrarre lo stream
-      </p>
+      <p class="text-xs text-gray-500 mt-2">Incolla l'URL di una pagina Radio Radicale per estrarre lo stream</p>
     </div>
 
-    <!-- Track Selector -->
-    <div class="mb-5 sm:mb-6 hidden" id="trackSelectorContainer">
-      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-        Seleziona traccia audio
-      </label>
-      <div class="space-y-2" id="trackList">
-        <!-- Le tracce verranno inserite qui dinamicamente -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Player Column -->
+      <div class="lg:col-span-2">
+        
+        <!-- Track Selector -->
+        <div class="mb-5 sm:mb-6 hidden" id="trackSelectorContainer">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Seleziona traccia audio</label>
+          <div class="space-y-2" id="trackList"></div>
+        </div>
+
+        <!-- Waveform -->
+        <div class="flex items-center justify-center gap-1 h-12 sm:h-16 mb-6 sm:mb-8">
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-4 sm:h-5 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-7 sm:h-9 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-11 sm:h-14 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-8 sm:h-10 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-10 sm:h-12 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-6 sm:h-8 transition-opacity duration-300"></div>
+          <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-9 sm:h-11 transition-opacity duration-300"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mb-5 sm:mb-6">
+          <div class="flex justify-between mb-2 text-xs text-gray-600 tabular-nums">
+            <span id="currentTime">00:00:00</span>
+            <span id="duration">--:--:--</span>
+          </div>
+          <div class="relative h-2 bg-gray-200 rounded-full cursor-pointer group" id="progressContainer">
+            <div class="absolute h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all" id="progressBar" style="width: 0%"></div>
+            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-orange-500 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none" id="progressHandle" style="left: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center gap-4 sm:gap-5 mb-5 sm:mb-6">
+          <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" id="playBtn" disabled>▶</button>
+          <div class="flex-1 text-center">
+            <div class="text-xs sm:text-sm text-gray-600" id="status">Inserisci un URL</div>
+          </div>
+        </div>
+
+        <!-- Speed Control -->
+        <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 p-3 sm:p-4 bg-gray-50 rounded-xl">
+          <span class="text-lg sm:text-xl select-none w-6 text-center">⚡</span>
+          <input type="range" class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" id="speedSlider" min="50" max="250" step="25" value="100">
+          <span class="text-xs sm:text-sm font-semibold text-red-600 w-10 sm:w-12 text-right tabular-nums" id="speedDisplay">1.0x</span>
+        </div>
+
+        <!-- Messages -->
+        <div class="hidden text-center text-orange-600 text-xs sm:text-sm mt-3" id="loading">
+          <div class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-orange-600 border-t-transparent mr-2"></div>
+          <span id="loadingText">Caricamento...</span>
+        </div>
+        <div class="hidden bg-green-50 text-green-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="success"></div>
+        <div class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="error"></div>
       </div>
-    </div>
 
-    <!-- Waveform -->
-    <div class="flex items-center justify-center gap-1 h-12 sm:h-16 mb-6 sm:mb-8">
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-4 sm:h-5 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-7 sm:h-9 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-11 sm:h-14 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-8 sm:h-10 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-10 sm:h-12 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-6 sm:h-8 transition-opacity duration-300"></div>
-      <div class="bar w-1 bg-gradient-to-t from-orange-500 to-red-600 rounded opacity-30 h-9 sm:h-11 transition-opacity duration-300"></div>
-    </div>
-
-    <!-- Progress Bar -->
-    <div class="mb-5 sm:mb-6">
-      <div class="flex justify-between mb-2 text-xs text-gray-600 tabular-nums">
-        <span id="currentTime">00:00</span>
-        <span id="duration">--:--</span>
+      <!-- Interventi Column -->
+      <div class="lg:col-span-1">
+        <div id="interventiContainer" class="hidden">
+          <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-3 rounded-t-xl font-semibold text-sm">INTERVENTI</div>
+          <div class="border-2 border-gray-200 rounded-b-xl max-h-[600px] overflow-y-auto" id="interventiList"></div>
+        </div>
       </div>
-      <div class="relative h-2 bg-gray-200 rounded-full cursor-pointer group" id="progressContainer">
-        <div class="absolute h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all" 
-             id="progressBar" style="width: 0%"></div>
-        <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-orange-500 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none" 
-             id="progressHandle" style="left: 0%"></div>
-      </div>
+
     </div>
-
-    <!-- Controls -->
-    <div class="flex items-center gap-4 sm:gap-5 mb-5 sm:mb-6">
-      <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" 
-              id="playBtn"
-              disabled>
-        ▶
-      </button>
-      <div class="flex-1 text-center">
-        <div class="text-xs sm:text-sm text-gray-600" id="status">Inserisci un URL</div>
-      </div>
-    </div>
-
-    <!-- Volume Control -->
-    <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 p-3 sm:p-4 bg-gray-50 rounded-xl">
-      <span class="text-lg sm:text-xl cursor-pointer select-none w-6 text-center" id="volumeIcon">🔊</span>
-      <input type="range" 
-             class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-orange-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-orange-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" 
-             id="volumeSlider" 
-             min="0" 
-             max="100" 
-             value="80">
-    </div>
-
-    <!-- Speed Control -->
-    <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 p-3 sm:p-4 bg-gray-50 rounded-xl">
-      <span class="text-lg sm:text-xl select-none w-6 text-center">⚡</span>
-      <input type="range" 
-             class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" 
-             id="speedSlider" 
-             min="50" 
-             max="250" 
-             step="25"
-             value="100">
-      <span class="text-xs sm:text-sm font-semibold text-red-600 w-10 sm:w-12 text-right tabular-nums" id="speedDisplay">1.0x</span>
-    </div>
-
-    <!-- Info Box -->
-    <div class="bg-gray-50 p-3 sm:p-4 rounded-xl text-center" id="infoBox">
-      <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Inserisci l'URL di una pagina Radio Radicale per iniziare</p>
-    </div>
-
-    <!-- Loading -->
-    <div class="hidden text-center text-orange-600 text-xs sm:text-sm mt-3" id="loading">
-      <div class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-orange-600 border-t-transparent mr-2"></div>
-      <span id="loadingText">Caricamento...</span>
-    </div>
-
-    <!-- Success Message -->
-    <div class="hidden bg-green-50 text-green-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="success"></div>
-
-    <!-- Error -->
-    <div class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="error"></div>
 
     <audio id="video" preload="metadata"></audio>
   </div>
 
   <script>
-    const video = document.getElementById('video');
-    const playBtn = document.getElementById('playBtn');
-    const currentTimeDisplay = document.getElementById('currentTime');
-    const durationDisplay = document.getElementById('duration');
-    const statusDisplay = document.getElementById('status');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeIcon = document.getElementById('volumeIcon');
-    const speedSlider = document.getElementById('speedSlider');
-    const speedDisplay = document.getElementById('speedDisplay');
-    const loading = document.getElementById('loading');
-    const loadingText = document.getElementById('loadingText');
-    const errorBox = document.getElementById('error');
-    const successBox = document.getElementById('success');
+    const $ = id => document.getElementById(id);
+    const video = $('video');
+    const playBtn = $('playBtn');
+    const currentTimeDisplay = $('currentTime');
+    const durationDisplay = $('duration');
+    const statusDisplay = $('status');
+    const speedSlider = $('speedSlider');
+    const speedDisplay = $('speedDisplay');
+    const loading = $('loading');
+    const loadingText = $('loadingText');
+    const errorBox = $('error');
+    const successBox = $('success');
     const bars = document.querySelectorAll('.bar');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    const progressHandle = document.getElementById('progressHandle');
-    const pageUrlInput = document.getElementById('pageUrlInput');
-    const loadBtn = document.getElementById('loadBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const infoBox = document.getElementById('infoBox');
-    const trackSelectorContainer = document.getElementById('trackSelectorContainer');
-    const trackList = document.getElementById('trackList');
+    const progressContainer = $('progressContainer');
+    const progressBar = $('progressBar');
+    const progressHandle = $('progressHandle');
+    const pageUrlInput = $('pageUrlInput');
+    const loadBtn = $('loadBtn');
+    const clearBtn = $('clearBtn');
+    const trackSelectorContainer = $('trackSelectorContainer');
+    const trackList = $('trackList');
+    const interventiContainer = $('interventiContainer');
+    const interventiList = $('interventiList');
+    const mainTitle = $('mainTitle');
+    const mainSubtitle = $('mainSubtitle');
     
     let isPlaying = false;
     let isSeeking = false;
     let currentHls = null;
     let availableTracks = [];
     let currentTrackIndex = 0;
+    let interventi = [];
 
-    // Mostra/nascondi pulsante clear
-    pageUrlInput.addEventListener('input', () => {
-      if (pageUrlInput.value.length > 0) {
-        clearBtn.classList.remove('hidden');
-      } else {
-        clearBtn.classList.add('hidden');
-      }
-    });
-
-    // Pulsante clear
+    // Input helpers
+    pageUrlInput.addEventListener('input', () => clearBtn.classList.toggle('hidden', !pageUrlInput.value));
     clearBtn.addEventListener('click', () => {
       pageUrlInput.value = '';
       clearBtn.classList.add('hidden');
       pageUrlInput.focus();
     });
 
-    // Fix selezione su mobile - triplo tap per selezionare tutto
-    let lastTapTime = 0;
-    let tapCount = 0;
-    
-    pageUrlInput.addEventListener('click', (e) => {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTapTime;
+    // Mobile text selection
+    let lastTap = 0;
+    pageUrlInput.addEventListener('click', () => {
+      const now = Date.now();
+      if (now - lastTap < 500) pageUrlInput.select();
+      lastTap = now;
+    });
+
+    let longPress;
+    pageUrlInput.addEventListener('touchstart', () => longPress = setTimeout(() => pageUrlInput.select(), 500));
+    pageUrlInput.addEventListener('touchend', () => clearTimeout(longPress));
+    pageUrlInput.addEventListener('touchmove', () => clearTimeout(longPress));
+
+    // Format time
+    const formatTime = seconds => {
+      if (!isFinite(seconds)) return '--:--:--';
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = Math.floor(seconds % 60);
+      return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}` : `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    };
+
+    // Parse duration
+    const parseDuration = str => {
+      const h = (str.match(/(\d+)\s*ora/) || [0, 0])[1] * 3600;
+      const m = (str.match(/(\d+)\s*min/) || [0, 0])[1] * 60;
+      const s = (str.match(/(\d+)\s*sec/) || [0, 0])[1];
+      return parseInt(h) + parseInt(m) + parseInt(s);
+    };
+
+    // Update main title
+    const updateTitle = (title, index, total) => {
+      mainTitle.textContent = title || 'Radio Radicale UNOFFICIAL player';
+      mainSubtitle.textContent = total > 0 ? `Traccia ${index + 1} di ${total}` : 'Streaming Audio';
+    };
+
+    // Extract data
+    async function extractData(pageUrl) {
+      loadingText.textContent = 'Estrazione dati...';
       
-      if (tapLength < 500 && tapLength > 0) {
-        tapCount++;
-        if (tapCount === 2) {
-          // Triplo tap - seleziona tutto
-          pageUrlInput.select();
-          tapCount = 0;
-        }
-      } else {
-        tapCount = 1;
+      let html;
+      try {
+        const res = await fetch(pageUrl);
+        html = await res.text();
+      } catch {
+        loadingText.textContent = 'Uso proxy CORS...';
+        const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(pageUrl));
+        html = await res.text();
       }
       
-      lastTapTime = currentTime;
-    });
-
-    // Long press per selezionare tutto su mobile
-    let pressTimer;
-    pageUrlInput.addEventListener('touchstart', (e) => {
-      pressTimer = setTimeout(() => {
-        pageUrlInput.select();
-      }, 500);
-    });
-
-    pageUrlInput.addEventListener('touchend', () => {
-      clearTimeout(pressTimer);
-    });
-
-    pageUrlInput.addEventListener('touchmove', () => {
-      clearTimeout(pressTimer);
-    });
-
-    // Formatta tempo in mm:ss
-    function formatTime(seconds) {
-      if (isNaN(seconds) || !isFinite(seconds)) return '--:--';
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    }
-
-    // Estrai tutte le tracce dalla pagina
-    async function extractTracks(pageUrl) {
-      try {
-        loadingText.textContent = 'Estrazione tracce audio...';
+      const match = html.match(/Drupal\.settings\s*,\s*({[\s\S]*?})\);/);
+      if (!match) throw new Error('Dati non trovati');
+      
+      const settings = JSON.parse(match[1]);
+      if (!settings.RRscheda) throw new Error('RRscheda non trovato');
+      
+      const rrscheda = settings.RRscheda;
+      
+      // Tracks
+      const tracks = [];
+      if (rrscheda.playlist) {
+        rrscheda.playlist.forEach((item, i) => {
+          if (item.sources?.[0]?.src) {
+            tracks.push({
+              url: item.sources[0].src,
+              title: item.title || `Traccia ${i + 1}`,
+              index: i
+            });
+          }
+        });
+      }
+      
+      // Interventi
+      const interventi = [];
+      let order = 0;
+      const liPattern = /<li class="(int\d+)[^"]*"[^>]*>([\s\S]*?)<\/li>/g;
+      let liMatch;
+      
+      while ((liMatch = liPattern.exec(html))) {
+        const id = liMatch[1];
+        const content = liMatch[2];
+        const isParagrafo = liMatch[0].includes('paragrafo');
         
-        // Prova prima senza proxy
-        let html;
-        try {
-          const response = await fetch(pageUrl);
-          html = await response.text();
-        } catch (corsError) {
-          // Se fallisce per CORS, usa un proxy
-          loadingText.textContent = 'Uso proxy CORS...';
-          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(pageUrl);
-          const response = await fetch(proxyUrl);
-          html = await response.text();
+        let offset = 0, file = 0;
+        if (rrscheda.interventi?.[id]) {
+          offset = rrscheda.interventi[id].offset || 0;
+          file = rrscheda.interventi[id].file || 0;
         }
         
-        // Estrai Drupal.settings.RRscheda.playlist
-        const drupalMatch = html.match(/Drupal\.settings\s*,\s*({[\s\S]*?})\);/);
-        if (drupalMatch) {
-          try {
-            const settingsJson = drupalMatch[1];
-            const settings = JSON.parse(settingsJson);
+        if (isParagrafo) {
+          const m = content.match(/<p class="strong descrizione">([^<]+)<\/p>/);
+          if (m) {
+            interventi.push({
+              tipo: 'paragrafo',
+              titolo: m[1].trim(),
+              offset, file,
+              htmlOrder: order++
+            });
+          }
+        } else {
+          const section = content.match(/<div class="int_name_section">([\s\S]*?)<\/div>/);
+          if (section) {
+            const html = section[1];
+            const nomi = [...html.matchAll(/<h2>([^<]+)<\/h2>/g)].map(m => m[1].trim());
+            const ruoli = [...html.matchAll(/<p>([^<]+)<\/p>/g)]
+              .map(m => m[1].trim())
+              .filter(t => !t.includes('Durata:') && !t.match(/^\d+:\d+/));
             
-            if (settings.RRscheda && settings.RRscheda.playlist) {
-              const playlist = settings.RRscheda.playlist;
-              
-              if (Array.isArray(playlist) && playlist.length > 0) {
-                const tracks = playlist.map((item, index) => {
-                  if (item.sources && item.sources.length > 0) {
-                    return {
-                      url: item.sources[0].src,
-                      title: item.title || `Traccia ${index + 1}`,
-                      index: index
-                    };
-                  }
-                  return null;
-                }).filter(track => track !== null);
-                
-                if (tracks.length > 0) {
-                  return tracks;
-                }
-              }
-            }
-          } catch (parseError) {
-            console.warn('Errore nel parsing Drupal.settings:', parseError);
+            const durataM = html.match(/Durata:\s*([^<]+)/);
+            const durata = durataM ? durataM[1].trim() : '';
+            const orarioM = html.match(/(\d+:\d+)\s+Durata:/);
+            const orario = orarioM ? orarioM[1] : '';
+            
+            nomi.forEach((nome, i) => {
+              interventi.push({
+                tipo: 'intervento',
+                nome,
+                ruolo: ruoli[i] || '',
+                durata,
+                orario,
+                offset, file,
+                htmlOrder: order++
+              });
+            });
           }
         }
-        
-        throw new Error('Nessuna traccia trovata nella pagina');
-      } catch (error) {
-        throw error;
       }
+      
+      return { tracks, interventi };
     }
 
-    // Mostra selettore tracce
-    function displayTrackSelector(tracks) {
-      availableTracks = tracks;
-      trackList.innerHTML = '';
-      
-      if (tracks.length === 1) {
-        // Se c'è solo una traccia, caricala direttamente
-        trackSelectorContainer.classList.add('hidden');
-        loadTrack(0);
+    // Display interventi
+    function displayInterventi(data) {
+      interventi = data;
+      if (!data.length) {
+        interventiContainer.classList.add('hidden');
         return;
       }
       
-      // Mostra il selettore
-      trackSelectorContainer.classList.remove('hidden');
+      interventiContainer.classList.remove('hidden');
+      interventiList.innerHTML = '';
       
-      tracks.forEach((track, index) => {
-        const trackButton = document.createElement('button');
-        trackButton.className = 'w-full text-left px-4 py-3 rounded-lg border-2 transition-all text-sm';
+      data.forEach(int => {
+        const div = document.createElement('div');
         
-        if (index === currentTrackIndex) {
-          trackButton.className += ' border-orange-500 bg-orange-50 text-orange-700 font-medium';
+        if (int.tipo === 'paragrafo') {
+          div.className = 'p-3 bg-gray-100 border-b border-gray-300';
+          div.innerHTML = `<div class="font-bold text-gray-700 text-sm">${int.titolo}</div>`;
         } else {
-          trackButton.className += ' border-gray-200 hover:border-orange-300 hover:bg-gray-50';
+          div.className = 'p-4 border-b border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors';
+          div.innerHTML = `
+            <div class="font-semibold text-gray-800 text-sm mb-1">${int.nome}</div>
+            ${int.ruolo ? `<div class="text-xs text-gray-600 mb-2">${int.ruolo}</div>` : ''}
+            ${int.durata ? `<div class="text-xs text-gray-500">${int.durata}</div>` : ''}
+            <div class="text-xs text-orange-600 mt-1">
+              ${int.orario ? `${int.orario} - ` : ''}
+              ${int.file > 0 ? `File ${int.file + 1} - ` : ''}
+              ${formatTime(int.offset)}
+            </div>
+          `;
+          
+          div.addEventListener('click', () => {
+            if (int.file !== currentTrackIndex && availableTracks[int.file]) {
+              currentTrackIndex = int.file;
+              loadTrack(int.file, int.offset);
+              if (availableTracks.length > 1) displayTrackSelector(availableTracks);
+            } else {
+              video.currentTime = int.offset;
+              if (!isPlaying) video.play();
+            }
+            
+            interventiList.querySelectorAll('div').forEach(el => {
+              el.classList.remove('bg-orange-100', 'border-l-4', 'border-orange-500');
+            });
+            div.classList.add('bg-orange-100', 'border-l-4', 'border-orange-500');
+          });
         }
         
-        trackButton.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-xs">
-              ${index + 1}
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="font-medium text-gray-800 truncate">${track.title}</div>
-              <div class="text-xs text-gray-500 mt-0.5">Parte ${index + 1} di ${tracks.length}</div>
-            </div>
-            ${index === currentTrackIndex ? '<span class="text-orange-600 text-xs">▶ In riproduzione</span>' : ''}
-          </div>
-        `;
-        
-        trackButton.addEventListener('click', () => {
-          currentTrackIndex = index;
-          loadTrack(index);
-          displayTrackSelector(tracks); // Aggiorna UI
-        });
-        
-        trackList.appendChild(trackButton);
+        interventiList.appendChild(div);
       });
     }
 
-    // Carica una traccia specifica
-    function loadTrack(index) {
+    // Display track selector
+    function displayTrackSelector(tracks) {
+      availableTracks = tracks;
+      if (tracks.length === 1) {
+        trackSelectorContainer.classList.add('hidden');
+        return;
+      }
+      
+      trackSelectorContainer.classList.remove('hidden');
+      trackList.innerHTML = '';
+      
+      tracks.forEach((track, i) => {
+        const btn = document.createElement('button');
+        const active = i === currentTrackIndex;
+        btn.className = `w-full text-left px-4 py-3 rounded-lg border-2 transition-all text-sm ${active ? 'border-orange-500 bg-orange-50 text-orange-700 font-medium' : 'border-gray-200 hover:border-orange-300 hover:bg-gray-50'}`;
+        
+        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-xs">${i + 1}</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-gray-800 truncate">${track.title}</div>
+              <div class="text-xs text-gray-500 mt-0.5">Parte ${i + 1} di ${tracks.length}</div>
+            </div>
+            ${active ? '<span class="text-orange-600 text-xs">▶</span>' : ''}
+          </div>
+        `;
+        
+        btn.addEventListener('click', () => {
+          currentTrackIndex = i;
+          loadTrack(i);
+          displayTrackSelector(tracks);
+        });
+        
+        trackList.appendChild(btn);
+      });
+    }
+
+    // Load track
+    function loadTrack(index, startTime = 0) {
       if (index < 0 || index >= availableTracks.length) return;
       
       const track = availableTracks[index];
       currentTrackIndex = index;
-      
-      initPlayer(track.url);
-      
-      infoBox.innerHTML = `
-        <p class="text-gray-700 text-sm font-medium mb-2">${track.title}</p>
-        <p class="text-gray-500 text-xs">Traccia ${index + 1} di ${availableTracks.length}</p>
-      `;
+      updateTitle(track.title, index, availableTracks.length);
+      initPlayer(track.url, startTime);
     }
 
-    // Inizializza player con nuovo URL
-    function initPlayer(videoSrc) {
-      // Pulisci player precedente
+    // Init player
+    function initPlayer(src, startTime = 0) {
       if (currentHls) {
         currentHls.destroy();
         currentHls = null;
@@ -388,279 +412,168 @@
         video.src = '';
       }
       
-      // Reset UI
       isPlaying = false;
       playBtn.innerHTML = '▶';
       progressBar.style.width = '0%';
       progressHandle.style.left = '0%';
-      currentTimeDisplay.textContent = '00:00';
-      durationDisplay.textContent = '--:--';
-      
-      loadingText.textContent = 'Inizializzazione player...';
+      currentTimeDisplay.textContent = '00:00:00';
+      durationDisplay.textContent = '--:--:--';
+      loadingText.textContent = 'Inizializzazione...';
       loading.classList.remove('hidden');
+      
+      const onReady = () => {
+        statusDisplay.textContent = 'Pronto';
+        loading.classList.add('hidden');
+        playBtn.disabled = false;
+        if (startTime > 0) video.currentTime = startTime;
+        successBox.textContent = '✓ Traccia caricata!';
+        successBox.classList.remove('hidden');
+        setTimeout(() => successBox.classList.add('hidden'), 3000);
+      };
       
       if (Hls.isSupported()) {
         currentHls = new Hls();
-        currentHls.loadSource(videoSrc);
+        currentHls.loadSource(src);
         currentHls.attachMedia(video);
-        
-        currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
-          statusDisplay.textContent = 'Pronto';
-          loading.classList.add('hidden');
-          playBtn.disabled = false;
-          
-          successBox.textContent = '✓ Traccia caricata con successo!';
-          successBox.classList.remove('hidden');
-          
-          setTimeout(() => {
-            successBox.classList.add('hidden');
-          }, 3000);
-        });
-
-        currentHls.on(Hls.Events.ERROR, function(event, data) {
+        currentHls.on(Hls.Events.MANIFEST_PARSED, onReady);
+        currentHls.on(Hls.Events.ERROR, (e, data) => {
           if (data.fatal) {
-            errorBox.textContent = 'Errore nel caricamento dello stream: ' + (data.details || 'unknown');
+            errorBox.textContent = 'Errore: ' + (data.details || 'unknown');
             errorBox.classList.remove('hidden');
             loading.classList.add('hidden');
             playBtn.disabled = true;
           }
         });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = videoSrc;
-        video.addEventListener('loadedmetadata', () => {
-          statusDisplay.textContent = 'Pronto';
-          loading.classList.add('hidden');
-          playBtn.disabled = false;
-          
-          successBox.textContent = '✓ Traccia caricata con successo!';
-          successBox.classList.remove('hidden');
-          
-          setTimeout(() => {
-            successBox.classList.add('hidden');
-          }, 3000);
-        }, { once: true });
+        video.src = src;
+        video.addEventListener('loadedmetadata', onReady, { once: true });
       } else {
-        errorBox.textContent = 'Il tuo browser non supporta HLS';
+        errorBox.textContent = 'Browser non supporta HLS';
         errorBox.classList.remove('hidden');
         loading.classList.add('hidden');
       }
     }
 
-    // Carica stream da URL pagina
+    // Load button
     loadBtn.addEventListener('click', async () => {
-      const pageUrl = pageUrlInput.value.trim();
+      const url = pageUrlInput.value.trim();
+      if (!url) return errorBox.textContent = 'Inserisci un URL', errorBox.classList.remove('hidden');
+      if (!url.includes('radioradicale.it')) return errorBox.textContent = 'URL non valido', errorBox.classList.remove('hidden');
       
-      if (!pageUrl) {
-        errorBox.textContent = 'Inserisci un URL valido';
-        errorBox.classList.remove('hidden');
-        return;
-      }
-      
-      // Valida URL
-      if (!pageUrl.includes('radioradicale.it')) {
-        errorBox.textContent = 'Inserisci un URL di Radio Radicale';
-        errorBox.classList.remove('hidden');
-        return;
-      }
-      
-      // Reset messaggi e UI
       errorBox.classList.add('hidden');
       successBox.classList.add('hidden');
       trackSelectorContainer.classList.add('hidden');
-      
-      // Mostra loading
+      interventiContainer.classList.add('hidden');
       loading.classList.remove('hidden');
       loadBtn.disabled = true;
       playBtn.disabled = true;
       statusDisplay.textContent = 'Caricamento...';
       
       try {
-        const tracks = await extractTracks(pageUrl);
-        console.log('Tracce trovate:', tracks);
+        const data = await extractData(url);
+        if (!data.tracks.length) throw new Error('Nessuna traccia');
         
-        if (tracks.length === 0) {
-          throw new Error('Nessuna traccia trovata');
-        }
-        
-        // Mostra selettore tracce
-        displayTrackSelector(tracks);
-        
+        displayTrackSelector(data.tracks);
+        displayInterventi(data.interventi);
+        loadTrack(0);
         loading.classList.add('hidden');
-        
-      } catch (error) {
-        console.error('Errore:', error);
-        errorBox.textContent = error.message || 'Errore nel caricamento delle tracce';
+      } catch (err) {
+        errorBox.textContent = err.message || 'Errore';
         errorBox.classList.remove('hidden');
         loading.classList.add('hidden');
-        loadBtn.disabled = false;
         statusDisplay.textContent = 'Errore';
       } finally {
         loadBtn.disabled = false;
       }
     });
 
-    // Permetti invio con Enter
-    pageUrlInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        loadBtn.click();
-      }
-    });
+    pageUrlInput.addEventListener('keypress', e => e.key === 'Enter' && loadBtn.click());
 
     // Play/Pause
-    playBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play().catch(err => {
-          errorBox.textContent = 'Errore nella riproduzione: ' + err.message;
-          errorBox.classList.remove('hidden');
-        });
-      }
-    });
-
+    playBtn.addEventListener('click', () => isPlaying ? video.pause() : video.play());
     video.addEventListener('play', () => {
       isPlaying = true;
       playBtn.innerHTML = '⏸';
       statusDisplay.textContent = 'In riproduzione';
-      bars.forEach(bar => bar.classList.remove('opacity-30'));
+      bars.forEach(b => b.classList.remove('opacity-30'));
     });
-
     video.addEventListener('pause', () => {
       isPlaying = false;
       playBtn.innerHTML = '▶';
       statusDisplay.textContent = 'In pausa';
-      bars.forEach(bar => bar.classList.add('opacity-30'));
+      bars.forEach(b => b.classList.add('opacity-30'));
     });
-
     video.addEventListener('ended', () => {
-      // Auto-play traccia successiva se disponibile
       if (currentTrackIndex < availableTracks.length - 1) {
         currentTrackIndex++;
         loadTrack(currentTrackIndex);
         displayTrackSelector(availableTracks);
-        
-        // Auto-play dopo caricamento
-        video.addEventListener('loadedmetadata', () => {
-          video.play();
-        }, { once: true });
+        video.addEventListener('loadedmetadata', () => video.play(), { once: true });
       }
     });
 
-    // Durata caricata
-    video.addEventListener('loadedmetadata', () => {
-      durationDisplay.textContent = formatTime(video.duration);
-    });
-
-    video.addEventListener('durationchange', () => {
-      durationDisplay.textContent = formatTime(video.duration);
-    });
-
-    // Aggiorna progress bar
+    // Time update
+    video.addEventListener('loadedmetadata', () => durationDisplay.textContent = formatTime(video.duration));
+    video.addEventListener('durationchange', () => durationDisplay.textContent = formatTime(video.duration));
     video.addEventListener('timeupdate', () => {
       if (!isSeeking && video.duration) {
-        const percent = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = percent + '%';
-        progressHandle.style.left = percent + '%';
+        const pct = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = pct + '%';
+        progressHandle.style.left = pct + '%';
         currentTimeDisplay.textContent = formatTime(video.currentTime);
       }
     });
 
-    // Seek functionality
-    progressContainer.addEventListener('mousedown', startSeeking);
-    progressContainer.addEventListener('touchstart', startSeeking);
+    // Seek
+    const seek = e => {
+      const rect = progressContainer.getBoundingClientRect();
+      const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      const pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      const time = pct * video.duration;
+      
+      if (isFinite(time)) {
+        progressBar.style.width = (pct * 100) + '%';
+        progressHandle.style.left = (pct * 100) + '%';
+        currentTimeDisplay.textContent = formatTime(time);
+      }
+      return pct;
+    };
 
-    function startSeeking(e) {
+    const startSeeking = e => {
       e.preventDefault();
       isSeeking = true;
       progressHandle.classList.remove('opacity-0', 'group-hover:opacity-100');
       progressHandle.classList.add('opacity-100', 'scale-110');
       seek(e);
-      
       document.addEventListener('mousemove', seek);
       document.addEventListener('touchmove', seek);
       document.addEventListener('mouseup', stopSeeking);
       document.addEventListener('touchend', stopSeeking);
-    }
+    };
 
-    function seek(e) {
-      const rect = progressContainer.getBoundingClientRect();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      let percent = (clientX - rect.left) / rect.width;
-      percent = Math.max(0, Math.min(1, percent));
+    const stopSeeking = e => {
+      if (!isSeeking) return;
+      const pct = seek(e);
+      if (isFinite(pct * video.duration)) video.currentTime = pct * video.duration;
       
-      const newTime = percent * video.duration;
-      
-      if (video.duration && isFinite(newTime)) {
-        progressBar.style.width = (percent * 100) + '%';
-        progressHandle.style.left = (percent * 100) + '%';
-        currentTimeDisplay.textContent = formatTime(newTime);
-      }
-    }
+      isSeeking = false;
+      progressHandle.classList.add('opacity-0', 'group-hover:opacity-100');
+      progressHandle.classList.remove('opacity-100', 'scale-110');
+      document.removeEventListener('mousemove', seek);
+      document.removeEventListener('touchmove', seek);
+      document.removeEventListener('mouseup', stopSeeking);
+      document.removeEventListener('touchend', stopSeeking);
+    };
 
-    function stopSeeking(e) {
-      if (isSeeking) {
-        const rect = progressContainer.getBoundingClientRect();
-        const clientX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
-        let percent = (clientX - rect.left) / rect.width;
-        percent = Math.max(0, Math.min(1, percent));
-        
-        const newTime = percent * video.duration;
-        
-        if (video.duration && isFinite(newTime)) {
-          video.currentTime = newTime;
-        }
-        
-        isSeeking = false;
-        progressHandle.classList.add('opacity-0', 'group-hover:opacity-100');
-        progressHandle.classList.remove('opacity-100', 'scale-110');
-        
-        document.removeEventListener('mousemove', seek);
-        document.removeEventListener('touchmove', seek);
-        document.removeEventListener('mouseup', stopSeeking);
-        document.removeEventListener('touchend', stopSeeking);
-      }
-    }
+    progressContainer.addEventListener('mousedown', startSeeking);
+    progressContainer.addEventListener('touchstart', startSeeking);
 
-    // Volume
-    volumeSlider.addEventListener('input', (e) => {
-      const volume = e.target.value / 100;
-      video.volume = volume;
-      updateVolumeIcon(volume);
-    });
-
-    volumeIcon.addEventListener('click', () => {
-      if (video.volume > 0) {
-        video.dataset.previousVolume = video.volume;
-        video.volume = 0;
-        volumeSlider.value = 0;
-      } else {
-        const previousVolume = video.dataset.previousVolume || 0.8;
-        video.volume = previousVolume;
-        volumeSlider.value = previousVolume * 100;
-      }
-      updateVolumeIcon(video.volume);
-    });
-
-    function updateVolumeIcon(volume) {
-      if (volume === 0) {
-        volumeIcon.textContent = '🔇';
-      } else if (volume < 0.5) {
-        volumeIcon.textContent = '🔉';
-      } else {
-        volumeIcon.textContent = '🔊';
-      }
-    }
-
-    video.volume = 0.8;
-
-    // Playback Speed
-    speedSlider.addEventListener('input', (e) => {
+    // Speed
+    speedSlider.addEventListener('input', e => {
       const speed = e.target.value / 100;
       video.playbackRate = speed;
       speedDisplay.textContent = speed.toFixed(1) + 'x';
     });
-
-    // Imposta velocità iniziale
     video.playbackRate = 1.0;
   </script>
 </body>
