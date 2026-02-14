@@ -40,9 +40,7 @@
 
     <!-- URL Input -->
     <div class="mb-5 sm:mb-6">
-      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-        URL Pagina Radio Radicale
-      </label>
+      <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">URL Pagina Radio Radicale</label>
       <div class="flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <input 
@@ -51,24 +49,13 @@
             placeholder="https://www.radioradicale.it/scheda/..."
             class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-xs sm:text-sm pr-8"
           >
-          <button 
-            id="clearBtn"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden"
-            title="Cancella"
-          >
-            ✕
-          </button>
+          <button id="clearBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">✕</button>
         </div>
-        <button 
-          id="loadBtn"
-          class="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap text-sm sm:text-base"
-        >
+        <button id="loadBtn" class="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap text-sm sm:text-base">
           Carica
         </button>
       </div>
-      <p class="text-xs text-gray-500 mt-2">
-        Incolla l'URL di una pagina Radio Radicale per estrarre lo stream
-      </p>
+      <p class="text-xs text-gray-500 mt-2">Incolla l'URL di una pagina Radio Radicale per estrarre lo stream</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -78,12 +65,8 @@
         
         <!-- Track Selector -->
         <div class="mb-5 sm:mb-6 hidden" id="trackSelectorContainer">
-          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-            Seleziona traccia audio
-          </label>
-          <div class="space-y-2" id="trackList">
-            <!-- Le tracce verranno inserite qui dinamicamente -->
-          </div>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Seleziona traccia audio</label>
+          <div class="space-y-2" id="trackList"></div>
         </div>
 
         <!-- Waveform -->
@@ -104,20 +87,14 @@
             <span id="duration">--:--:--</span>
           </div>
           <div class="relative h-2 bg-gray-200 rounded-full cursor-pointer group" id="progressContainer">
-            <div class="absolute h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all" 
-                 id="progressBar" style="width: 0%"></div>
-            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-orange-500 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none" 
-                 id="progressHandle" style="left: 0%"></div>
+            <div class="absolute h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all" id="progressBar" style="width: 0%"></div>
+            <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-orange-500 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none" id="progressHandle" style="left: 0%"></div>
           </div>
         </div>
 
         <!-- Controls -->
         <div class="flex items-center gap-4 sm:gap-5 mb-5 sm:mb-6">
-          <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" 
-                  id="playBtn"
-                  disabled>
-            ▶
-          </button>
+          <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" id="playBtn" disabled>▶</button>
           <div class="flex-1 text-center">
             <div class="text-xs sm:text-sm text-gray-600" id="status">Inserisci un URL</div>
           </div>
@@ -126,38 +103,24 @@
         <!-- Speed Control -->
         <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 p-3 sm:p-4 bg-gray-50 rounded-xl">
           <span class="text-lg sm:text-xl select-none w-6 text-center">⚡</span>
-          <input type="range" 
-                 class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" 
-                 id="speedSlider" 
-                 min="50" 
-                 max="250" 
-                 step="25"
-                 value="100">
+          <input type="range" class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" id="speedSlider" min="50" max="250" step="25" value="100">
           <span class="text-xs sm:text-sm font-semibold text-red-600 w-10 sm:w-12 text-right tabular-nums" id="speedDisplay">1.0x</span>
         </div>
 
-        <!-- Loading -->
+        <!-- Messages -->
         <div class="hidden text-center text-orange-600 text-xs sm:text-sm mt-3" id="loading">
           <div class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-orange-600 border-t-transparent mr-2"></div>
           <span id="loadingText">Caricamento...</span>
         </div>
-
-        <!-- Success Message -->
         <div class="hidden bg-green-50 text-green-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="success"></div>
-
-        <!-- Error -->
         <div class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-xs sm:text-sm mt-4" id="error"></div>
       </div>
 
       <!-- Interventi Column -->
       <div class="lg:col-span-1">
         <div id="interventiContainer" class="hidden">
-          <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-3 rounded-t-xl font-semibold text-sm">
-            INTERVENTI
-          </div>
-          <div class="border-2 border-gray-200 rounded-b-xl max-h-[600px] overflow-y-auto" id="interventiList">
-            <!-- Gli interventi verranno inseriti qui -->
-          </div>
+          <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-3 rounded-t-xl font-semibold text-sm">INTERVENTI</div>
+          <div class="border-2 border-gray-200 rounded-b-xl max-h-[600px] overflow-y-auto" id="interventiList"></div>
         </div>
       </div>
 
@@ -167,30 +130,31 @@
   </div>
 
   <script>
-    const video = document.getElementById('video');
-    const playBtn = document.getElementById('playBtn');
-    const currentTimeDisplay = document.getElementById('currentTime');
-    const durationDisplay = document.getElementById('duration');
-    const statusDisplay = document.getElementById('status');
-    const speedSlider = document.getElementById('speedSlider');
-    const speedDisplay = document.getElementById('speedDisplay');
-    const loading = document.getElementById('loading');
-    const loadingText = document.getElementById('loadingText');
-    const errorBox = document.getElementById('error');
-    const successBox = document.getElementById('success');
+    const $ = id => document.getElementById(id);
+    const video = $('video');
+    const playBtn = $('playBtn');
+    const currentTimeDisplay = $('currentTime');
+    const durationDisplay = $('duration');
+    const statusDisplay = $('status');
+    const speedSlider = $('speedSlider');
+    const speedDisplay = $('speedDisplay');
+    const loading = $('loading');
+    const loadingText = $('loadingText');
+    const errorBox = $('error');
+    const successBox = $('success');
     const bars = document.querySelectorAll('.bar');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    const progressHandle = document.getElementById('progressHandle');
-    const pageUrlInput = document.getElementById('pageUrlInput');
-    const loadBtn = document.getElementById('loadBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const trackSelectorContainer = document.getElementById('trackSelectorContainer');
-    const trackList = document.getElementById('trackList');
-    const interventiContainer = document.getElementById('interventiContainer');
-    const interventiList = document.getElementById('interventiList');
-    const mainTitle = document.getElementById('mainTitle');
-    const mainSubtitle = document.getElementById('mainSubtitle');
+    const progressContainer = $('progressContainer');
+    const progressBar = $('progressBar');
+    const progressHandle = $('progressHandle');
+    const pageUrlInput = $('pageUrlInput');
+    const loadBtn = $('loadBtn');
+    const clearBtn = $('clearBtn');
+    const trackSelectorContainer = $('trackSelectorContainer');
+    const trackList = $('trackList');
+    const interventiContainer = $('interventiContainer');
+    const interventiList = $('interventiList');
+    const mainTitle = $('mainTitle');
+    const mainSubtitle = $('mainSubtitle');
     
     let isPlaying = false;
     let isSeeking = false;
@@ -199,252 +163,149 @@
     let currentTrackIndex = 0;
     let interventi = [];
 
-    pageUrlInput.addEventListener('input', () => {
-      if (pageUrlInput.value.length > 0) {
-        clearBtn.classList.remove('hidden');
-      } else {
-        clearBtn.classList.add('hidden');
-      }
-    });
-
+    // Input helpers
+    pageUrlInput.addEventListener('input', () => clearBtn.classList.toggle('hidden', !pageUrlInput.value));
     clearBtn.addEventListener('click', () => {
       pageUrlInput.value = '';
       clearBtn.classList.add('hidden');
       pageUrlInput.focus();
     });
 
-    let lastTapTime = 0;
-    let tapCount = 0;
-    
-    pageUrlInput.addEventListener('click', (e) => {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTapTime;
-      
-      if (tapLength < 500 && tapLength > 0) {
-        tapCount++;
-        if (tapCount === 2) {
-          pageUrlInput.select();
-          tapCount = 0;
-        }
-      } else {
-        tapCount = 1;
-      }
-      
-      lastTapTime = currentTime;
+    // Mobile text selection
+    let lastTap = 0;
+    pageUrlInput.addEventListener('click', () => {
+      const now = Date.now();
+      if (now - lastTap < 500) pageUrlInput.select();
+      lastTap = now;
     });
 
-    let pressTimer;
-    pageUrlInput.addEventListener('touchstart', (e) => {
-      pressTimer = setTimeout(() => {
-        pageUrlInput.select();
-      }, 500);
-    });
+    let longPress;
+    pageUrlInput.addEventListener('touchstart', () => longPress = setTimeout(() => pageUrlInput.select(), 500));
+    pageUrlInput.addEventListener('touchend', () => clearTimeout(longPress));
+    pageUrlInput.addEventListener('touchmove', () => clearTimeout(longPress));
 
-    pageUrlInput.addEventListener('touchend', () => {
-      clearTimeout(pressTimer);
-    });
+    // Format time
+    const formatTime = seconds => {
+      if (!isFinite(seconds)) return '--:--:--';
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = Math.floor(seconds % 60);
+      return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}` : `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    };
 
-    pageUrlInput.addEventListener('touchmove', () => {
-      clearTimeout(pressTimer);
-    });
+    // Parse duration
+    const parseDuration = str => {
+      const h = (str.match(/(\d+)\s*ora/) || [0, 0])[1] * 3600;
+      const m = (str.match(/(\d+)\s*min/) || [0, 0])[1] * 60;
+      const s = (str.match(/(\d+)\s*sec/) || [0, 0])[1];
+      return parseInt(h) + parseInt(m) + parseInt(s);
+    };
 
-    function formatTime(seconds) {
-      if (isNaN(seconds) || !isFinite(seconds)) return '--:--:--';
-      const hours = Math.floor(seconds / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
-      const secs = Math.floor(seconds % 60);
-      
-      if (hours > 0) {
-        return `${hours}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-      }
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    }
+    // Update main title
+    const updateTitle = (title, index, total) => {
+      mainTitle.textContent = title || 'Radio Radicale Player';
+      mainSubtitle.textContent = total > 0 ? `Traccia ${index + 1} di ${total}` : 'Streaming Audio';
+    };
 
-    function parseDuration(durataStr) {
-      const oraMatch = durataStr.match(/(\d+)\s*ora/);
-      const minMatch = durataStr.match(/(\d+)\s*min/);
-      const secMatch = durataStr.match(/(\d+)\s*sec/);
-      
-      let totalSeconds = 0;
-      if (oraMatch) totalSeconds += parseInt(oraMatch[1]) * 3600;
-      if (minMatch) totalSeconds += parseInt(minMatch[1]) * 60;
-      if (secMatch) totalSeconds += parseInt(secMatch[1]);
-      
-      return totalSeconds;
-    }
-
-    function updateMainTitle(trackTitle, trackIndex, totalTracks) {
-      if (trackTitle && totalTracks > 0) {
-        mainTitle.textContent = trackTitle;
-        mainSubtitle.textContent = `Traccia ${trackIndex + 1} di ${totalTracks}`;
-      } else {
-        mainTitle.textContent = 'Radio Radicale Player';
-        mainSubtitle.textContent = 'Streaming Audio';
-      }
-    }
-
+    // Extract data
     async function extractData(pageUrl) {
+      loadingText.textContent = 'Estrazione dati...';
+      
+      let html;
       try {
-        loadingText.textContent = 'Estrazione dati...';
-        
-        let html;
-        try {
-          const response = await fetch(pageUrl);
-          html = await response.text();
-        } catch (corsError) {
-          loadingText.textContent = 'Uso proxy CORS...';
-          const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(pageUrl);
-          const response = await fetch(proxyUrl);
-          html = await response.text();
-        }
-        
-        const drupalMatch = html.match(/Drupal\.settings\s*,\s*({[\s\S]*?})\);/);
-        if (!drupalMatch) {
-          throw new Error('Impossibile trovare i dati nella pagina');
-        }
-        
-        const settingsJson = drupalMatch[1];
-        const settings = JSON.parse(settingsJson);
-        
-        if (!settings.RRscheda) {
-          throw new Error('Dati RRscheda non trovati');
-        }
-        
-        const rrscheda = settings.RRscheda;
-        
-        // Estrai tracce audio
-        const tracks = [];
-        if (rrscheda.playlist && Array.isArray(rrscheda.playlist)) {
-          rrscheda.playlist.forEach((item, index) => {
-            if (item.sources && item.sources.length > 0) {
-              tracks.push({
-                url: item.sources[0].src,
-                title: item.title || `Traccia ${index + 1}`,
-                index: index
-              });
-            }
-          });
-        }
-        
-        // Mantieni l'ordine HTML
-        const interventiData = [];
-        let htmlOrderIndex = 0;
-        
-        const liPattern = /<li class="(int\d+)[^"]*"[^>]*>([\s\S]*?)<\/li>/g;
-        let liMatch;
-        
-        while ((liMatch = liPattern.exec(html)) !== null) {
-          const interventoId = liMatch[1];
-          const liContent = liMatch[2];
-          const liFullMatch = liMatch[0];
-          
-          const isParagrafo = liFullMatch.match(/class="int\d+ paragrafo/);
-          
-          let offset = 0;
-          let file = 0;
-          
-          if (rrscheda.interventi && rrscheda.interventi[interventoId]) {
-            offset = rrscheda.interventi[interventoId].offset || 0;
-            file = rrscheda.interventi[interventoId].file || 0;
-          }
-          
-          if (isParagrafo) {
-            const paragrafoMatch = liContent.match(/<p class="strong descrizione">([^<]+)<\/p>/);
-            
-            if (paragrafoMatch) {
-              const titolo = paragrafoMatch[1].trim();
-              
-              interventiData.push({
-                tipo: 'paragrafo',
-                titolo: titolo,
-                nome: '',
-                ruolo: '',
-                durata: '',
-                durataSeconds: 0,
-                orario: '',
-                offset: offset,
-                file: file,
-                htmlOrder: htmlOrderIndex++
-              });
-            }
-          } else {
-            const nameSection = liContent.match(/<div class="int_name_section">([\s\S]*?)<\/div>/);
-            
-            if (nameSection) {
-              const interventoHtml = nameSection[1];
-              
-              const h2Pattern = /<h2>([^<]+)<\/h2>/g;
-              const pPattern = /<p>([^<]+)<\/p>/g;
-              
-              const nomi = [];
-              const ruoli = [];
-              
-              let h2Match;
-              while ((h2Match = h2Pattern.exec(interventoHtml)) !== null) {
-                nomi.push(h2Match[1].trim());
-              }
-              
-              let pMatch;
-              while ((pMatch = pPattern.exec(interventoHtml)) !== null) {
-                const text = pMatch[1].trim();
-                if (!text.includes('Durata:') && !text.match(/^\d+:\d+/)) {
-                  ruoli.push(text);
-                }
-              }
-              
-              const durataMatch = interventoHtml.match(/Durata:\s*([^<]+)/);
-              let durata = '';
-              let durataSeconds = 0;
-              
-              if (durataMatch) {
-                durata = durataMatch[1].trim();
-                durataSeconds = parseDuration(durata);
-              }
-              
-              const orarioMatch = interventoHtml.match(/(\d+:\d+)\s+Durata:/);
-              let orario = '';
-              
-              if (orarioMatch) {
-                orario = orarioMatch[1];
-              }
-              
-              if (nomi.length > 0) {
-                nomi.forEach((nome, index) => {
-                  interventiData.push({
-                    tipo: 'intervento',
-                    titolo: '',
-                    nome: nome,
-                    ruolo: ruoli[index] || '',
-                    durata: durata,
-                    durataSeconds: durataSeconds,
-                    orario: orario,
-                    offset: offset,
-                    file: file,
-                    htmlOrder: htmlOrderIndex++
-                  });
-                });
-              }
-            }
-          }
-        }
-        
-        console.log('Interventi estratti (ordine HTML):', interventiData);
-        
-        return {
-          tracks,
-          interventi: interventiData
-        };
-        
-      } catch (error) {
-        console.error('Errore parsing:', error);
-        throw error;
+        const res = await fetch(pageUrl);
+        html = await res.text();
+      } catch {
+        loadingText.textContent = 'Uso proxy CORS...';
+        const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(pageUrl));
+        html = await res.text();
       }
+      
+      const match = html.match(/Drupal\.settings\s*,\s*({[\s\S]*?})\);/);
+      if (!match) throw new Error('Dati non trovati');
+      
+      const settings = JSON.parse(match[1]);
+      if (!settings.RRscheda) throw new Error('RRscheda non trovato');
+      
+      const rrscheda = settings.RRscheda;
+      
+      // Tracks
+      const tracks = [];
+      if (rrscheda.playlist) {
+        rrscheda.playlist.forEach((item, i) => {
+          if (item.sources?.[0]?.src) {
+            tracks.push({
+              url: item.sources[0].src,
+              title: item.title || `Traccia ${i + 1}`,
+              index: i
+            });
+          }
+        });
+      }
+      
+      // Interventi
+      const interventi = [];
+      let order = 0;
+      const liPattern = /<li class="(int\d+)[^"]*"[^>]*>([\s\S]*?)<\/li>/g;
+      let liMatch;
+      
+      while ((liMatch = liPattern.exec(html))) {
+        const id = liMatch[1];
+        const content = liMatch[2];
+        const isParagrafo = liMatch[0].includes('paragrafo');
+        
+        let offset = 0, file = 0;
+        if (rrscheda.interventi?.[id]) {
+          offset = rrscheda.interventi[id].offset || 0;
+          file = rrscheda.interventi[id].file || 0;
+        }
+        
+        if (isParagrafo) {
+          const m = content.match(/<p class="strong descrizione">([^<]+)<\/p>/);
+          if (m) {
+            interventi.push({
+              tipo: 'paragrafo',
+              titolo: m[1].trim(),
+              offset, file,
+              htmlOrder: order++
+            });
+          }
+        } else {
+          const section = content.match(/<div class="int_name_section">([\s\S]*?)<\/div>/);
+          if (section) {
+            const html = section[1];
+            const nomi = [...html.matchAll(/<h2>([^<]+)<\/h2>/g)].map(m => m[1].trim());
+            const ruoli = [...html.matchAll(/<p>([^<]+)<\/p>/g)]
+              .map(m => m[1].trim())
+              .filter(t => !t.includes('Durata:') && !t.match(/^\d+:\d+/));
+            
+            const durataM = html.match(/Durata:\s*([^<]+)/);
+            const durata = durataM ? durataM[1].trim() : '';
+            const orarioM = html.match(/(\d+:\d+)\s+Durata:/);
+            const orario = orarioM ? orarioM[1] : '';
+            
+            nomi.forEach((nome, i) => {
+              interventi.push({
+                tipo: 'intervento',
+                nome,
+                ruolo: ruoli[i] || '',
+                durata,
+                orario,
+                offset, file,
+                htmlOrder: order++
+              });
+            });
+          }
+        }
+      }
+      
+      return { tracks, interventi };
     }
 
-    function displayInterventi(interventiData) {
-      interventi = interventiData;
-      
-      if (interventi.length === 0) {
+    // Display interventi
+    function displayInterventi(data) {
+      interventi = data;
+      if (!data.length) {
         interventiContainer.classList.add('hidden');
         return;
       }
@@ -452,113 +313,95 @@
       interventiContainer.classList.remove('hidden');
       interventiList.innerHTML = '';
       
-      interventi.forEach((intervento, index) => {
-        const interventoEl = document.createElement('div');
+      data.forEach(int => {
+        const div = document.createElement('div');
         
-        if (intervento.tipo === 'paragrafo') {
-          // Paragrafo NON cliccabile, senza timeframe
-          interventoEl.className = 'p-3 bg-gray-100 border-b border-gray-300';
-          
-          interventoEl.innerHTML = `
-            <div class="font-bold text-gray-700 text-sm">${intervento.titolo}</div>
-          `;
+        if (int.tipo === 'paragrafo') {
+          div.className = 'p-3 bg-gray-100 border-b border-gray-300';
+          div.innerHTML = `<div class="font-bold text-gray-700 text-sm">${int.titolo}</div>`;
         } else {
-          // Intervento normale cliccabile
-          interventoEl.className = 'p-4 border-b border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors';
-          
-          interventoEl.innerHTML = `
-            <div class="font-semibold text-gray-800 text-sm mb-1">${intervento.nome}</div>
-            ${intervento.ruolo ? `<div class="text-xs text-gray-600 mb-2">${intervento.ruolo}</div>` : ''}
-            ${intervento.durata ? `<div class="text-xs text-gray-500">${intervento.durata}</div>` : ''}
+          div.className = 'p-4 border-b border-gray-200 hover:bg-orange-50 cursor-pointer transition-colors';
+          div.innerHTML = `
+            <div class="font-semibold text-gray-800 text-sm mb-1">${int.nome}</div>
+            ${int.ruolo ? `<div class="text-xs text-gray-600 mb-2">${int.ruolo}</div>` : ''}
+            ${int.durata ? `<div class="text-xs text-gray-500">${int.durata}</div>` : ''}
             <div class="text-xs text-orange-600 mt-1">
-              ${intervento.orario ? `${intervento.orario} - ` : ''}
-              ${intervento.file > 0 ? `File ${intervento.file + 1} - ` : ''}
-              ${formatTime(intervento.offset)}
+              ${int.orario ? `${int.orario} - ` : ''}
+              ${int.file > 0 ? `File ${int.file + 1} - ` : ''}
+              ${formatTime(int.offset)}
             </div>
           `;
           
-          interventoEl.addEventListener('click', () => {
-            if (intervento.file !== currentTrackIndex && availableTracks[intervento.file]) {
-              currentTrackIndex = intervento.file;
-              loadTrack(intervento.file, intervento.offset);
-              if (availableTracks.length > 1) {
-                displayTrackSelector(availableTracks);
-              }
+          div.addEventListener('click', () => {
+            if (int.file !== currentTrackIndex && availableTracks[int.file]) {
+              currentTrackIndex = int.file;
+              loadTrack(int.file, int.offset);
+              if (availableTracks.length > 1) displayTrackSelector(availableTracks);
             } else {
-              video.currentTime = intervento.offset;
-              if (!isPlaying) {
-                video.play();
-              }
+              video.currentTime = int.offset;
+              if (!isPlaying) video.play();
             }
             
-            document.querySelectorAll('#interventiList > div').forEach(el => {
+            interventiList.querySelectorAll('div').forEach(el => {
               el.classList.remove('bg-orange-100', 'border-l-4', 'border-orange-500');
             });
-            interventoEl.classList.add('bg-orange-100', 'border-l-4', 'border-orange-500');
+            div.classList.add('bg-orange-100', 'border-l-4', 'border-orange-500');
           });
         }
         
-        interventiList.appendChild(interventoEl);
+        interventiList.appendChild(div);
       });
     }
 
+    // Display track selector
     function displayTrackSelector(tracks) {
       availableTracks = tracks;
-      trackList.innerHTML = '';
-      
       if (tracks.length === 1) {
         trackSelectorContainer.classList.add('hidden');
         return;
       }
       
       trackSelectorContainer.classList.remove('hidden');
+      trackList.innerHTML = '';
       
-      tracks.forEach((track, index) => {
-        const trackButton = document.createElement('button');
-        trackButton.className = 'w-full text-left px-4 py-3 rounded-lg border-2 transition-all text-sm';
+      tracks.forEach((track, i) => {
+        const btn = document.createElement('button');
+        const active = i === currentTrackIndex;
+        btn.className = `w-full text-left px-4 py-3 rounded-lg border-2 transition-all text-sm ${active ? 'border-orange-500 bg-orange-50 text-orange-700 font-medium' : 'border-gray-200 hover:border-orange-300 hover:bg-gray-50'}`;
         
-        if (index === currentTrackIndex) {
-          trackButton.className += ' border-orange-500 bg-orange-50 text-orange-700 font-medium';
-        } else {
-          trackButton.className += ' border-gray-200 hover:border-orange-300 hover:bg-gray-50';
-        }
-        
-        trackButton.innerHTML = `
+        btn.innerHTML = `
           <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-xs">
-              ${index + 1}
-            </div>
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-xs">${i + 1}</div>
             <div class="flex-1 min-w-0">
               <div class="font-medium text-gray-800 truncate">${track.title}</div>
-              <div class="text-xs text-gray-500 mt-0.5">Parte ${index + 1} di ${tracks.length}</div>
+              <div class="text-xs text-gray-500 mt-0.5">Parte ${i + 1} di ${tracks.length}</div>
             </div>
-            ${index === currentTrackIndex ? '<span class="text-orange-600 text-xs">▶</span>' : ''}
+            ${active ? '<span class="text-orange-600 text-xs">▶</span>' : ''}
           </div>
         `;
         
-        trackButton.addEventListener('click', () => {
-          currentTrackIndex = index;
-          loadTrack(index);
+        btn.addEventListener('click', () => {
+          currentTrackIndex = i;
+          loadTrack(i);
           displayTrackSelector(tracks);
         });
         
-        trackList.appendChild(trackButton);
+        trackList.appendChild(btn);
       });
     }
 
+    // Load track
     function loadTrack(index, startTime = 0) {
       if (index < 0 || index >= availableTracks.length) return;
       
       const track = availableTracks[index];
       currentTrackIndex = index;
-      
-      // Aggiorna il titolo principale
-      updateMainTitle(track.title, index, availableTracks.length);
-      
+      updateTitle(track.title, index, availableTracks.length);
       initPlayer(track.url, startTime);
     }
 
-    function initPlayer(videoSrc, startTime = 0) {
+    // Init player
+    function initPlayer(src, startTime = 0) {
       if (currentHls) {
         currentHls.destroy();
         currentHls = null;
@@ -575,30 +418,25 @@
       progressHandle.style.left = '0%';
       currentTimeDisplay.textContent = '00:00:00';
       durationDisplay.textContent = '--:--:--';
-      
-      loadingText.textContent = 'Inizializzazione player...';
+      loadingText.textContent = 'Inizializzazione...';
       loading.classList.remove('hidden');
+      
+      const onReady = () => {
+        statusDisplay.textContent = 'Pronto';
+        loading.classList.add('hidden');
+        playBtn.disabled = false;
+        if (startTime > 0) video.currentTime = startTime;
+        successBox.textContent = '✓ Traccia caricata!';
+        successBox.classList.remove('hidden');
+        setTimeout(() => successBox.classList.add('hidden'), 3000);
+      };
       
       if (Hls.isSupported()) {
         currentHls = new Hls();
-        currentHls.loadSource(videoSrc);
+        currentHls.loadSource(src);
         currentHls.attachMedia(video);
-        
-        currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
-          statusDisplay.textContent = 'Pronto';
-          loading.classList.add('hidden');
-          playBtn.disabled = false;
-          
-          if (startTime > 0) {
-            video.currentTime = startTime;
-          }
-          
-          successBox.textContent = '✓ Traccia caricata!';
-          successBox.classList.remove('hidden');
-          setTimeout(() => successBox.classList.add('hidden'), 3000);
-        });
-
-        currentHls.on(Hls.Events.ERROR, function(event, data) {
+        currentHls.on(Hls.Events.MANIFEST_PARSED, onReady);
+        currentHls.on(Hls.Events.ERROR, (e, data) => {
           if (data.fatal) {
             errorBox.textContent = 'Errore: ' + (data.details || 'unknown');
             errorBox.classList.remove('hidden');
@@ -607,20 +445,8 @@
           }
         });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = videoSrc;
-        video.addEventListener('loadedmetadata', () => {
-          statusDisplay.textContent = 'Pronto';
-          loading.classList.add('hidden');
-          playBtn.disabled = false;
-          
-          if (startTime > 0) {
-            video.currentTime = startTime;
-          }
-          
-          successBox.textContent = '✓ Traccia caricata!';
-          successBox.classList.remove('hidden');
-          setTimeout(() => successBox.classList.add('hidden'), 3000);
-        }, { once: true });
+        video.src = src;
+        video.addEventListener('loadedmetadata', onReady, { once: true });
       } else {
         errorBox.textContent = 'Browser non supporta HLS';
         errorBox.classList.remove('hidden');
@@ -628,87 +454,55 @@
       }
     }
 
+    // Load button
     loadBtn.addEventListener('click', async () => {
-      const pageUrl = pageUrlInput.value.trim();
-      
-      if (!pageUrl) {
-        errorBox.textContent = 'Inserisci un URL';
-        errorBox.classList.remove('hidden');
-        return;
-      }
-      
-      if (!pageUrl.includes('radioradicale.it')) {
-        errorBox.textContent = 'URL non valido';
-        errorBox.classList.remove('hidden');
-        return;
-      }
+      const url = pageUrlInput.value.trim();
+      if (!url) return errorBox.textContent = 'Inserisci un URL', errorBox.classList.remove('hidden');
+      if (!url.includes('radioradicale.it')) return errorBox.textContent = 'URL non valido', errorBox.classList.remove('hidden');
       
       errorBox.classList.add('hidden');
       successBox.classList.add('hidden');
       trackSelectorContainer.classList.add('hidden');
       interventiContainer.classList.add('hidden');
-      
       loading.classList.remove('hidden');
       loadBtn.disabled = true;
       playBtn.disabled = true;
       statusDisplay.textContent = 'Caricamento...';
       
       try {
-        const data = await extractData(pageUrl);
-        console.log('Dati estratti:', data);
-        
-        if (data.tracks.length === 0) {
-          throw new Error('Nessuna traccia trovata');
-        }
+        const data = await extractData(url);
+        if (!data.tracks.length) throw new Error('Nessuna traccia');
         
         displayTrackSelector(data.tracks);
         displayInterventi(data.interventi);
-        
         loadTrack(0);
-        
         loading.classList.add('hidden');
-        
-      } catch (error) {
-        console.error('Errore:', error);
-        errorBox.textContent = error.message || 'Errore nel caricamento';
+      } catch (err) {
+        errorBox.textContent = err.message || 'Errore';
         errorBox.classList.remove('hidden');
         loading.classList.add('hidden');
-        loadBtn.disabled = false;
         statusDisplay.textContent = 'Errore';
       } finally {
         loadBtn.disabled = false;
       }
     });
 
-    pageUrlInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') loadBtn.click();
-    });
+    pageUrlInput.addEventListener('keypress', e => e.key === 'Enter' && loadBtn.click());
 
-    playBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play().catch(err => {
-          errorBox.textContent = 'Errore riproduzione: ' + err.message;
-          errorBox.classList.remove('hidden');
-        });
-      }
-    });
-
+    // Play/Pause
+    playBtn.addEventListener('click', () => isPlaying ? video.pause() : video.play());
     video.addEventListener('play', () => {
       isPlaying = true;
       playBtn.innerHTML = '⏸';
       statusDisplay.textContent = 'In riproduzione';
-      bars.forEach(bar => bar.classList.remove('opacity-30'));
+      bars.forEach(b => b.classList.remove('opacity-30'));
     });
-
     video.addEventListener('pause', () => {
       isPlaying = false;
       playBtn.innerHTML = '▶';
       statusDisplay.textContent = 'In pausa';
-      bars.forEach(bar => bar.classList.add('opacity-30'));
+      bars.forEach(b => b.classList.add('opacity-30'));
     });
-
     video.addEventListener('ended', () => {
       if (currentTrackIndex < availableTracks.length - 1) {
         currentTrackIndex++;
@@ -718,85 +512,68 @@
       }
     });
 
-    video.addEventListener('loadedmetadata', () => {
-      durationDisplay.textContent = formatTime(video.duration);
-    });
-
-    video.addEventListener('durationchange', () => {
-      durationDisplay.textContent = formatTime(video.duration);
-    });
-
+    // Time update
+    video.addEventListener('loadedmetadata', () => durationDisplay.textContent = formatTime(video.duration));
+    video.addEventListener('durationchange', () => durationDisplay.textContent = formatTime(video.duration));
     video.addEventListener('timeupdate', () => {
       if (!isSeeking && video.duration) {
-        const percent = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = percent + '%';
-        progressHandle.style.left = percent + '%';
+        const pct = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = pct + '%';
+        progressHandle.style.left = pct + '%';
         currentTimeDisplay.textContent = formatTime(video.currentTime);
       }
     });
 
-    progressContainer.addEventListener('mousedown', startSeeking);
-    progressContainer.addEventListener('touchstart', startSeeking);
+    // Seek
+    const seek = e => {
+      const rect = progressContainer.getBoundingClientRect();
+      const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      const pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      const time = pct * video.duration;
+      
+      if (isFinite(time)) {
+        progressBar.style.width = (pct * 100) + '%';
+        progressHandle.style.left = (pct * 100) + '%';
+        currentTimeDisplay.textContent = formatTime(time);
+      }
+      return pct;
+    };
 
-    function startSeeking(e) {
+    const startSeeking = e => {
       e.preventDefault();
       isSeeking = true;
       progressHandle.classList.remove('opacity-0', 'group-hover:opacity-100');
       progressHandle.classList.add('opacity-100', 'scale-110');
       seek(e);
-      
       document.addEventListener('mousemove', seek);
       document.addEventListener('touchmove', seek);
       document.addEventListener('mouseup', stopSeeking);
       document.addEventListener('touchend', stopSeeking);
-    }
+    };
 
-    function seek(e) {
-      const rect = progressContainer.getBoundingClientRect();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      let percent = (clientX - rect.left) / rect.width;
-      percent = Math.max(0, Math.min(1, percent));
+    const stopSeeking = e => {
+      if (!isSeeking) return;
+      const pct = seek(e);
+      if (isFinite(pct * video.duration)) video.currentTime = pct * video.duration;
       
-      const newTime = percent * video.duration;
-      
-      if (video.duration && isFinite(newTime)) {
-        progressBar.style.width = (percent * 100) + '%';
-        progressHandle.style.left = (percent * 100) + '%';
-        currentTimeDisplay.textContent = formatTime(newTime);
-      }
-    }
+      isSeeking = false;
+      progressHandle.classList.add('opacity-0', 'group-hover:opacity-100');
+      progressHandle.classList.remove('opacity-100', 'scale-110');
+      document.removeEventListener('mousemove', seek);
+      document.removeEventListener('touchmove', seek);
+      document.removeEventListener('mouseup', stopSeeking);
+      document.removeEventListener('touchend', stopSeeking);
+    };
 
-    function stopSeeking(e) {
-      if (isSeeking) {
-        const rect = progressContainer.getBoundingClientRect();
-        const clientX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
-        let percent = (clientX - rect.left) / rect.width;
-        percent = Math.max(0, Math.min(1, percent));
-        
-        const newTime = percent * video.duration;
-        
-        if (video.duration && isFinite(newTime)) {
-          video.currentTime = newTime;
-        }
-        
-        isSeeking = false;
-        progressHandle.classList.add('opacity-0', 'group-hover:opacity-100');
-        progressHandle.classList.remove('opacity-100', 'scale-110');
-        
-        document.removeEventListener('mousemove', seek);
-        document.removeEventListener('touchmove', seek);
-        document.removeEventListener('mouseup', stopSeeking);
-        document.removeEventListener('touchend', stopSeeking);
-      }
-    }
+    progressContainer.addEventListener('mousedown', startSeeking);
+    progressContainer.addEventListener('touchstart', startSeeking);
 
     // Speed
-    speedSlider.addEventListener('input', (e) => {
+    speedSlider.addEventListener('input', e => {
       const speed = e.target.value / 100;
       video.playbackRate = speed;
       speedDisplay.textContent = speed.toFixed(1) + 'x';
     });
-
     video.playbackRate = 1.0;
   </script>
 </body>
