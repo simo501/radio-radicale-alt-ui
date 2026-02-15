@@ -208,6 +208,23 @@
     let currentTrackIndex = 0;
     let interventi = [];
 
+    // Leggi URL dai parametri
+    function getUrlParameter(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    // Auto-carica URL se presente nei parametri
+    function autoLoadFromUrl() {
+      const urlParam = getUrlParameter('url');
+      if (urlParam) {
+        pageUrlInput.value = decodeURIComponent(urlParam);
+        clearBtn.classList.remove('hidden');
+        // Trigger automatico del caricamento
+        loadBtn.click();
+      }
+    }
+
     pageUrlInput.addEventListener('input', () => clearBtn.classList.toggle('hidden', !pageUrlInput.value));
     clearBtn.addEventListener('click', () => {
       pageUrlInput.value = '';
@@ -254,13 +271,11 @@
       }
     };
 
-    // Crea i marker degli interventi sulla progress bar
     function createInterventiMarkers() {
       if (!video.duration || !interventi.length) return;
       
       interventiMarkers.innerHTML = '';
       
-      // Filtra solo gli interventi della traccia corrente
       const currentTrackInterventi = interventi.filter(int => int.file === currentTrackIndex);
       
       currentTrackInterventi.forEach(int => {
@@ -271,7 +286,6 @@
         marker.style.left = position + '%';
         marker.title = int.tipo === 'paragrafo' ? int.titolo : int.nome;
         
-        // Click sul marker per saltare a quell'intervento
         marker.addEventListener('click', e => {
           e.stopPropagation();
           video.currentTime = int.offset;
@@ -503,7 +517,6 @@
         forwardBtn.disabled = false;
         if (startTime > 0) video.currentTime = startTime;
         
-        // Crea i marker degli interventi
         createInterventiMarkers();
         
         successBox.textContent = '✓ Traccia caricata!';
@@ -536,8 +549,7 @@
       }
     }
 
-    loadBtn.addEventListener('click', async () => {
-      const url = pageUrlInput.value.trim();
+    async function loadFromUrl(url) {
       if (!url) return errorBox.textContent = 'Inserisci un URL', errorBox.classList.remove('hidden');
       if (!url.includes('radioradicale.it')) return errorBox.textContent = 'URL non valido', errorBox.classList.remove('hidden');
       
@@ -570,6 +582,11 @@
       } finally {
         loadBtn.disabled = false;
       }
+    }
+
+    loadBtn.addEventListener('click', async () => {
+      const url = pageUrlInput.value.trim();
+      await loadFromUrl(url);
     });
 
     pageUrlInput.addEventListener('keypress', e => e.key === 'Enter' && loadBtn.click());
@@ -676,6 +693,9 @@
     });
     
     video.playbackRate = 1.0;
+
+    // Auto-load all'avvio
+    window.addEventListener('DOMContentLoaded', autoLoadFromUrl);
   </script>
 </body>
 </html>
