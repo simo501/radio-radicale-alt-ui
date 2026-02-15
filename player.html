@@ -28,7 +28,7 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-orange-500 via-orange-600 to-red-700 min-h-screen flex items-center justify-center p-3 sm:p-5">
+<body class="bg-stone-400 min-h-screen flex items-center justify-center p-3 sm:p-5">
   
   <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 w-full max-w-4xl">
     
@@ -94,9 +94,21 @@
         </div>
 
         <!-- Controls -->
-        <div class="flex items-center gap-4 sm:gap-5 mb-5 sm:mb-6">
-          <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" id="playBtn" disabled>▶</button>
-          <div class="flex-1 text-center">
+        <div class="mb-5 sm:mb-6">
+          <div class="flex items-center justify-center gap-3 sm:gap-4">
+            <button class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 text-gray-700 text-lg sm:text-xl flex items-center justify-center hover:bg-gray-300 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed" id="backwardBtn" disabled title="Indietro 15 secondi">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.69l1.77-.63h.09V16zm4.28-1.76c0 .32-.03.6-.1.82s-.17.42-.29.57-.28.26-.45.33-.37.1-.59.1-.41-.03-.59-.1-.33-.18-.46-.33-.23-.34-.3-.57-.11-.5-.11-.82v-.74c0-.32.03-.6.1-.82s.17-.42.29-.57.28-.26.45-.33.37-.1.59-.1.41.03.59.1.33.18.46.33.23.34.3.57.11.5.11.82v.74zm-.85-.86c0-.19-.01-.35-.04-.48s-.07-.23-.12-.31-.11-.14-.19-.17-.16-.05-.25-.05-.18.02-.25.05-.14.09-.19.17-.09.18-.12.31-.04.29-.04.48v.97c0 .19.01.35.04.48s.07.24.12.32.11.14.19.17.16.05.25.05.18-.02.25-.05.14-.09.19-.17.09-.19.11-.32.04-.29.04-.48v-.97z"/>
+              </svg>
+            </button>
+            <button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 text-white text-xl sm:text-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" id="playBtn" disabled>▶</button>
+            <button class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 text-gray-700 text-lg sm:text-xl flex items-center justify-center hover:bg-gray-300 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed" id="forwardBtn" disabled title="Avanti 15 secondi">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8zm-.86 11h-.85v-3.26l-1.01.31v-.69l1.77-.63h.09V16zm4.28-1.76c0 .32-.03.6-.1.82s-.17.42-.29.57-.28.26-.45.33-.37.1-.59.1-.41-.03-.59-.1-.33-.18-.46-.33-.23-.34-.3-.57-.11-.5-.11-.82v-.74c0-.32.03-.6.1-.82s.17-.42.29-.57.28-.26.45-.33.37-.1.59-.1.41.03.59.1.33.18.46.33.23.34.3.57.11.5.11.82v.74zm-.85-.86c0-.19-.01-.35-.04-.48s-.07-.23-.12-.31-.11-.14-.19-.17-.16-.05-.25-.05-.18.02-.25.05-.14.09-.19.17-.09.18-.12.31-.04.29-.04.48v.97c0 .19.01.35.04.48s.07.24.12.32.11.14.19.17.16.05.25.05.18-.02.25-.05.14-.09.19-.17.09-.19.11-.32.04-.29.04-.48v-.97z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="text-center mt-3">
             <div class="text-xs sm:text-sm text-gray-600" id="status">Inserisci un URL</div>
           </div>
         </div>
@@ -104,7 +116,7 @@
         <!-- Speed Control -->
         <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 p-3 sm:p-4 bg-gray-50 rounded-xl">
           <span class="text-lg sm:text-xl select-none w-6 text-center">⚡</span>
-          <input type="range" class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" id="speedSlider" min="50" max="250" step="25" value="100">
+          <input type="range" class="flex-1 h-1.5 bg-gray-300 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 sm:[&::-webkit-slider-thumb]:w-4 sm:[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 sm:[&::-moz-range-thumb]:w-4 sm:[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-red-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer" id="speedSlider" min="0.5" max="2.5" step="0.1" value="1.0">
           <span class="text-xs sm:text-sm font-semibold text-red-600 w-10 sm:w-12 text-right tabular-nums" id="speedDisplay">1.0x</span>
         </div>
 
@@ -134,6 +146,8 @@
     const $ = id => document.getElementById(id);
     const video = $('video');
     const playBtn = $('playBtn');
+    const backwardBtn = $('backwardBtn');
+    const forwardBtn = $('forwardBtn');
     const currentTimeDisplay = $('currentTime');
     const durationDisplay = $('duration');
     const statusDisplay = $('status');
@@ -232,7 +246,6 @@
       
       const rrscheda = settings.RRscheda;
       
-      // Tracks
       const tracks = [];
       if (rrscheda.playlist) {
         rrscheda.playlist.forEach((item, i) => {
@@ -246,14 +259,12 @@
         });
       }
       
-      // Estrai "A cura di"
       let curatore = '';
       const curaDiMatch = html.match(/<div class="secondo_suffisso[^"]*">[\s\S]*?<span class=['"]elenco-nomi-label['"]>A cura di<\/span>&nbsp;([^<]+)<\/div>/);
       if (curaDiMatch) {
         curatore = 'A cura di ' + curaDiMatch[1].trim();
       }
       
-      // Interventi
       const interventi = [];
       let order = 0;
       const liPattern = /<li class="(int\d+)[^"]*"[^>]*>([\s\S]*?)<\/li>/g;
@@ -431,6 +442,8 @@
         statusDisplay.textContent = 'Pronto';
         loading.classList.add('hidden');
         playBtn.disabled = false;
+        backwardBtn.disabled = false;
+        forwardBtn.disabled = false;
         if (startTime > 0) video.currentTime = startTime;
         successBox.textContent = '✓ Traccia caricata!';
         successBox.classList.remove('hidden');
@@ -448,6 +461,8 @@
             errorBox.classList.remove('hidden');
             loading.classList.add('hidden');
             playBtn.disabled = true;
+            backwardBtn.disabled = true;
+            forwardBtn.disabled = true;
           }
         });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -472,13 +487,14 @@
       loading.classList.remove('hidden');
       loadBtn.disabled = true;
       playBtn.disabled = true;
+      backwardBtn.disabled = true;
+      forwardBtn.disabled = true;
       statusDisplay.textContent = 'Caricamento...';
       
       try {
         const data = await extractData(url);
         if (!data.tracks.length) throw new Error('Nessuna traccia');
         
-        // Salva il curatore nelle tracce
         data.tracks.forEach(t => t.curator = data.curatore);
         
         displayTrackSelector(data.tracks);
@@ -498,18 +514,29 @@
     pageUrlInput.addEventListener('keypress', e => e.key === 'Enter' && loadBtn.click());
 
     playBtn.addEventListener('click', () => isPlaying ? video.pause() : video.play());
+    
+    backwardBtn.addEventListener('click', () => {
+      video.currentTime = Math.max(0, video.currentTime - 15);
+    });
+    
+    forwardBtn.addEventListener('click', () => {
+      video.currentTime = Math.min(video.duration, video.currentTime + 15);
+    });
+    
     video.addEventListener('play', () => {
       isPlaying = true;
       playBtn.innerHTML = '⏸';
       statusDisplay.textContent = 'In riproduzione';
       bars.forEach(b => b.classList.remove('opacity-30'));
     });
+    
     video.addEventListener('pause', () => {
       isPlaying = false;
       playBtn.innerHTML = '▶';
       statusDisplay.textContent = 'In pausa';
       bars.forEach(b => b.classList.add('opacity-30'));
     });
+    
     video.addEventListener('ended', () => {
       if (currentTrackIndex < availableTracks.length - 1) {
         currentTrackIndex++;
@@ -574,10 +601,11 @@
     progressContainer.addEventListener('touchstart', startSeeking);
 
     speedSlider.addEventListener('input', e => {
-      const speed = e.target.value / 100;
+      const speed = parseFloat(e.target.value);
       video.playbackRate = speed;
       speedDisplay.textContent = speed.toFixed(1) + 'x';
     });
+    
     video.playbackRate = 1.0;
   </script>
 </body>
