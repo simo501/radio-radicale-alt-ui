@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Radio Radicale UNOFFICIAL — Ricerca Processi</title>
+  <title>Radio Radicale UNOFFICIAL — Ricerca</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -235,6 +235,28 @@
       font-size: 11px;
       color: var(--gray-mid);
       margin-top: 8px;
+    }
+
+    /* ── CHECKBOX OPTION ── */
+    .search-mode {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-mode input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--orange);
+    }
+
+    .search-mode label {
+      font-size: 12px;
+      color: var(--gray-dark);
+      cursor: pointer;
+      user-select: none;
     }
 
     /* ── LOADING / ERROR / EMPTY ── */
@@ -620,8 +642,8 @@
     
     <!-- Page Title -->
     <div class="page-title">
-      <h1>Ricerca Processi</h1>
-      <p class="subtitle">Cerca le udienze, puoi usare (oltre al nome del processo) il nome dell'imputato o della persona coinvolta</p>
+      <h1 id="pageTitle">Ricerca Processi</h1>
+      <p class="subtitle" id="pageSubtitle">Cerca le udienze per nome dell'imputato o della persona coinvolta</p>
     </div>
 
     <!-- Search -->
@@ -639,7 +661,11 @@
         </div>
         <button id="searchBtn" class="search-btn">Cerca</button>
       </div>
-      <p class="search-hint">I risultati mostrano le udienze disponibili su Radio Radicale</p>
+      <p class="search-hint" id="searchHint">I risultati mostrano le udienze disponibili su Radio Radicale</p>
+      <div class="search-mode">
+        <input type="checkbox" id="searchInterventi" />
+        <label for="searchInterventi">Cerca interventi invece di processi</label>
+      </div>
     </div>
 
     <!-- Loading -->
@@ -711,6 +737,10 @@
     const pagerTop        = $('pagerTop');
     const pagerBottom     = $('pagerBottom');
     const pagerBottomWrap = $('pagerBottomWrap');
+    const searchInterventi = $('searchInterventi');
+    const pageTitle       = $('pageTitle');
+    const pageSubtitle    = $('pageSubtitle');
+    const searchHint      = $('searchHint');
 
     let currentQuery = '';
     let currentPage  = 0;
@@ -757,9 +787,17 @@
     }
 
     function buildUrl(query, page) {
-      let url = 'https://www.radioradicale.it/cerca?raggruppamenti_radio=6&search_api_views_fulltext=' + encodeURIComponent(query);
-      if (page > 0) url += '&page=' + page;
-      return url;
+      if (searchInterventi.checked) {
+        // Modalità interventi: /soggetti/nome?page=N
+        let url = 'https://www.radioradicale.it/soggetti/' + encodeURIComponent(query);
+        if (page > 0) url += '?page=' + page;
+        return url;
+      } else {
+        // Modalità processi: /cerca?...
+        let url = 'https://www.radioradicale.it/cerca?raggruppamenti_radio=6&search_api_views_fulltext=' + encodeURIComponent(query);
+        if (page > 0) url += '&page=' + page;
+        return url;
+      }
     }
 
     // ── parse ──────────────────────────────────────────────────
@@ -993,6 +1031,31 @@
     }
 
     // ── events ─────────────────────────────────────────────────
+    // Update UI when checkbox changes
+    function updateUIMode() {
+      const isInterventi = searchInterventi.checked;
+      if (isInterventi) {
+        pageTitle.textContent = 'Ricerca Interventi';
+        pageSubtitle.textContent = 'Cerca gli interventi di una persona per nome e cognome';
+        searchInput.placeholder = 'es. Mario Rossi';
+        searchHint.textContent = 'I risultati mostrano gli interventi disponibili su Radio Radicale';
+      } else {
+        pageTitle.textContent = 'Ricerca Processi';
+        pageSubtitle.textContent = 'Cerca le udienze per nome dell\'imputato o della persona coinvolta';
+        searchInput.placeholder = 'es. Massimo Carminati';
+        searchHint.textContent = 'I risultati mostrano le udienze disponibili su Radio Radicale';
+      }
+      // Clear results when switching modes
+      if (resultsList.children.length > 0) {
+        hideAll();
+        currentQuery = '';
+        currentPage  = 0;
+        totalPages   = 1;
+      }
+    }
+
+    searchInterventi.addEventListener('change', updateUIMode);
+
     searchInput.addEventListener('input', () => {
       toggleClass(clearBtn, 'visible', searchInput.value.length > 0);
     });
