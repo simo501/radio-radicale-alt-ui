@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Radio Radicale UNOFFICIAL — Ricerca</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --orange: #EA580C;
@@ -21,7 +30,8 @@
       --white: #FFFFFF;
     }
 
-    html, body {
+    html,
+    body {
       min-height: 100%;
       min-height: -webkit-fill-available;
     }
@@ -61,7 +71,9 @@
       transition: color 0.15s;
     }
 
-    .back-link:hover { color: var(--orange); }
+    .back-link:hover {
+      color: var(--orange);
+    }
 
     .back-link svg {
       width: 16px;
@@ -93,8 +105,17 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
     }
 
     /* ── MAIN CONTAINER ── */
@@ -198,8 +219,13 @@
       display: none;
     }
 
-    .clear-btn.visible { display: block; }
-    .clear-btn:hover { color: var(--orange); }
+    .clear-btn.visible {
+      display: block;
+    }
+
+    .clear-btn:hover {
+      color: var(--orange);
+    }
 
     .search-btn {
       font-family: 'DM Sans', sans-serif;
@@ -276,7 +302,9 @@
       color: var(--orange);
     }
 
-    .loading.visible { display: block; }
+    .loading.visible {
+      display: block;
+    }
 
     .loading-spinner {
       display: inline-block;
@@ -291,7 +319,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .error-box {
@@ -302,14 +332,18 @@
       border: 1px solid #FECACA;
     }
 
-    .error-box.visible { display: block; }
+    .error-box.visible {
+      display: block;
+    }
 
     .empty-state {
       display: none;
       color: var(--gray-mid);
     }
 
-    .empty-state.visible { display: block; }
+    .empty-state.visible {
+      display: block;
+    }
 
     .empty-state-icon {
       font-size: 48px;
@@ -327,7 +361,9 @@
       animation: fadeUp 0.4s ease both;
     }
 
-    .results-header.visible { display: flex; }
+    .results-header.visible {
+      display: flex;
+    }
 
     .results-header-inner {
       display: flex;
@@ -428,8 +464,15 @@
     }
 
     @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .card-inner {
@@ -525,7 +568,9 @@
       animation: fadeUp 0.4s ease both;
     }
 
-    .pager-bottom-wrap.visible { display: flex; }
+    .pager-bottom-wrap.visible {
+      display: flex;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -568,7 +613,9 @@
       text-decoration: none;
     }
 
-    .footer-built a.claude:hover { text-decoration: underline; }
+    .footer-built a.claude:hover {
+      text-decoration: underline;
+    }
 
     .footer-github {
       display: inline-flex;
@@ -577,7 +624,9 @@
       transition: color 0.15s;
     }
 
-    .footer-github:hover { color: var(--black); }
+    .footer-github:hover {
+      color: var(--black);
+    }
 
     .footer-github svg {
       width: 18px;
@@ -600,38 +649,71 @@
       text-decoration: none;
     }
 
-    .footer-license a:hover { text-decoration: underline; }
+    .footer-license a:hover {
+      text-decoration: underline;
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ── RESPONSIVE ── */
     @media (min-width: 640px) {
-      header { padding: 32px 40px 24px; }
-      main { padding: 0 40px 40px; }
-      .page-title { margin-bottom: 40px; }
-      .search-section { margin-bottom: 32px; }
-      .results-list { gap: 14px; }
-      .result-card { padding: 20px; }
-      footer { padding: 28px 40px max(28px, env(safe-area-inset-bottom)); }
+      header {
+        padding: 32px 40px 24px;
+      }
+
+      main {
+        padding: 0 40px 40px;
+      }
+
+      .page-title {
+        margin-bottom: 40px;
+      }
+
+      .search-section {
+        margin-bottom: 32px;
+      }
+
+      .results-list {
+        gap: 14px;
+      }
+
+      .result-card {
+        padding: 20px;
+      }
+
+      footer {
+        padding: 28px 40px max(28px, env(safe-area-inset-bottom));
+      }
     }
 
     @media (max-width: 500px) {
-      .card-arrow { display: none; }
+      .card-arrow {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="top-bar"></div>
 
   <header>
     <a href="./index.html" class="back-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
       </svg>
       Home
     </a>
@@ -639,7 +721,7 @@
   </header>
 
   <main>
-    
+
     <!-- Page Title -->
     <div class="page-title">
       <h1 id="pageTitle">Ricerca Processi</h1>
@@ -651,12 +733,7 @@
       <label class="search-label">Nome da cercare</label>
       <div class="search-bar">
         <div class="search-input-wrap">
-          <input
-            type="text"
-            id="searchInput"
-            class="search-input"
-            placeholder="es. Processo a Mario Rossi"
-          >
+          <input type="text" id="searchInput" class="search-input" placeholder="es. Processo a Mario Rossi">
           <button id="clearBtn" class="clear-btn">✕</button>
         </div>
         <button id="searchBtn" class="search-btn">Cerca</button>
@@ -696,7 +773,7 @@
     <!-- Empty State -->
     <div id="emptyState" class="empty-state">
       <div class="empty-state-icon">🔍</div>
-      <p>Nessun processo trovato per questa ricerca.</p>
+      <p>Nessun risultato è disponibile per questa ricerca.</p>
     </div>
 
   </main>
@@ -708,43 +785,48 @@
     </p>
     <div class="footer-row">
       <span class="footer-built">
-        built with <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="claude">Claude.ai</a> by simo501
+        built with <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="claude">Claude.ai</a> by
+        simo501
       </span>
       <div class="footer-sep"></div>
-      <a href="https://github.com/simo501/radio-radicale-alt-ui" target="_blank" rel="noopener noreferrer" class="footer-github" aria-label="Codice sorgente su GitHub">
+      <a href="https://github.com/simo501/radio-radicale-alt-ui" target="_blank" rel="noopener noreferrer"
+        class="footer-github" aria-label="Codice sorgente su GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor">
-          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd"
+            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+            clip-rule="evenodd" />
         </svg>
       </a>
     </div>
     <p class="footer-license">
-      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">Licenza CC BY-NC-SA 4.0</a>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">Licenza CC
+        BY-NC-SA 4.0</a>
     </p>
   </footer>
 
   <script>
     const $ = id => document.getElementById(id);
-    const searchInput     = $('searchInput');
-    const searchBtn       = $('searchBtn');
-    const clearBtn        = $('clearBtn');
-    const loading         = $('loading');
-    const loadingText     = $('loadingText');
-    const errorBox        = $('errorBox');
-    const resultsList     = $('resultsList');
-    const emptyState      = $('emptyState');
-    const resultsCount    = $('resultsCount');
-    const resultsHeader   = $('resultsHeader');
-    const pagerTop        = $('pagerTop');
-    const pagerBottom     = $('pagerBottom');
+    const searchInput = $('searchInput');
+    const searchBtn = $('searchBtn');
+    const clearBtn = $('clearBtn');
+    const loading = $('loading');
+    const loadingText = $('loadingText');
+    const errorBox = $('errorBox');
+    const resultsList = $('resultsList');
+    const emptyState = $('emptyState');
+    const resultsCount = $('resultsCount');
+    const resultsHeader = $('resultsHeader');
+    const pagerTop = $('pagerTop');
+    const pagerBottom = $('pagerBottom');
     const pagerBottomWrap = $('pagerBottomWrap');
     const searchInterventi = $('searchInterventi');
-    const pageTitle       = $('pageTitle');
-    const pageSubtitle    = $('pageSubtitle');
-    const searchHint      = $('searchHint');
+    const pageTitle = $('pageTitle');
+    const pageSubtitle = $('pageSubtitle');
+    const searchHint = $('searchHint');
 
     let currentQuery = '';
-    let currentPage  = 0;
-    let totalPages   = 1;
+    let currentPage = 0;
+    let totalPages = 1;
 
     // ── helpers ────────────────────────────────────────────────
     function addClass(el, cls) { el.classList.add(cls); }
@@ -762,7 +844,7 @@
       removeClass(resultsHeader, 'visible');
       removeClass(pagerBottomWrap, 'visible');
       resultsList.innerHTML = '';
-      pagerTop.innerHTML    = '';
+      pagerTop.innerHTML = '';
       pagerBottom.innerHTML = '';
     }
 
@@ -770,27 +852,47 @@
     async function fetchHtml(url) {
       try {
         const res = await fetch(url);
-        if (res.ok) return await res.text();
-      } catch (_) {}
+        if (res.ok) return { "html": await res.text(), "status": res.status };;
+      } catch (_) { }
       try {
         const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
-        if (res.ok) return await res.text();
-      } catch (_) {}
-      try {
-        const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
-        if (res.ok) {
-          const json = await res.json();
-          return json.contents || null;
-        }
-      } catch (_) {}
+        if (res.ok) return { "html": await res.text(), "status": res.status };
+        else return { "html": "", "status": res.status }
+      } catch (_) { }
+      // ridondante per ora
+      // try {
+      //   const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
+      //   if (res.ok) {
+      //     const json = await res.json();
+      //     return json.contents || null;
+      //   }
+      // } catch (_) { }
+      return null;
+    }
+
+    function getCanonicalUrl(htmlString) {
+      // 1. Cerca il protocollo e il dominio
+      // 2. Trova lo slash dopo il dominio ma NON lo cattura
+      // 3. Cattura tutto il resto fino alla virgoletta
+      const regex = /<link\s+[^>]*rel=["']canonical["'][^>]*href=["']https?:\/\/[^\/]+\/([^"']+)["']/i;
+
+      const match = htmlString.match(regex);
+
+      if (match && match[1]) {
+        // Decodifichiamo per pulire %2F, %20, ecc.
+        return decodeURIComponent(match[1]);
+      }
       return null;
     }
 
     function buildUrl(query, page) {
-      if (searchInterventi.checked) {
-        // Modalità interventi: /soggetti/nome?page=N
+      // dobbiamo controllare che non ci sia gia soggetti altrimenti lo concateniamo un ulteriore volta e torna ad errore radio radicale
+      if (searchInterventi.checked && page === 0 && !query.includes("soggetti")) {
         let url = 'https://www.radioradicale.it/soggetti/' + encodeURIComponent(query);
-        if (page > 0) url += '?page=' + page;
+        return url;
+      } else if (searchInterventi.checked) {
+        let url = 'https://www.radioradicale.it/' + (query);
+        url += '?page=' + page;
         return url;
       } else {
         // Modalità processi: /cerca?...
@@ -798,13 +900,14 @@
         if (page > 0) url += '&page=' + page;
         return url;
       }
+
     }
 
     // ── parse ──────────────────────────────────────────────────
     function parseResults(html) {
       const parser = new DOMParser();
-      const doc    = parser.parseFromString(html, 'text/html');
-      const items  = doc.querySelectorAll('li.clearfix');
+      const doc = parser.parseFromString(html, 'text/html');
+      const items = doc.querySelectorAll('li.clearfix');
       const results = [];
 
       items.forEach(li => {
@@ -813,7 +916,7 @@
         const href = linkEl.getAttribute('href') || '';
         if (!href.includes('/scheda/')) return;
 
-        const title  = linkEl.textContent.trim();
+        const title = linkEl.textContent.trim();
         const dateEl = li.querySelector('span.date-display-single');
         let date = '';
         if (dateEl) {
@@ -831,15 +934,15 @@
         if (doveEl) {
           const parts = doveEl.textContent.trim().split('-');
           luogo = parts[0].trim();
-          ora   = parts.slice(1).join('-').trim();
+          ora = parts.slice(1).join('-').trim();
         }
 
-        const durataEl  = li.querySelector('p.durata');
-        const durata    = durataEl ? durataEl.textContent.replace('Durata:', '').trim() : '';
-        const catEl     = li.querySelector('.ls_cat a');
+        const durataEl = li.querySelector('p.durata');
+        const durata = durataEl ? durataEl.textContent.replace('Durata:', '').trim() : '';
+        const catEl = li.querySelector('.ls_cat a');
         const categoria = catEl ? catEl.textContent.trim() : '';
-        const tipoEl    = li.querySelector('.tipo_media');
-        const tipo      = tipoEl ? tipoEl.textContent.trim().toLowerCase() : 'audio';
+        const tipoEl = li.querySelector('.tipo_media');
+        const tipo = tipoEl ? tipoEl.textContent.trim().toLowerCase() : 'audio';
 
         results.push({ href, title, date, luogo, ora, durata, categoria, tipo });
       });
@@ -848,8 +951,8 @@
     }
 
     function parseTotalPages(html) {
-      const parser  = new DOMParser();
-      const doc     = parser.parseFromString(html, 'text/html');
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
       const lastLink = doc.querySelector('li.pager__item--last a');
       if (lastLink) {
         const m = (lastLink.getAttribute('href') || '').match(/[?&]page=(\d+)/);
@@ -871,12 +974,12 @@
       resultsList.innerHTML = '';
       results.forEach((r, i) => {
         const playerUrl = 'player.html?url=' + encodeURIComponent('https://www.radioradicale.it' + r.href);
-        const isAudio   = r.tipo === 'audio';
+        const isAudio = r.tipo === 'audio';
 
         const card = document.createElement('a');
-        card.href      = playerUrl;
-        card.target    = '_blank';
-        card.rel       = 'noopener noreferrer';
+        card.href = playerUrl;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
         card.className = 'result-card';
         card.style.animationDelay = (i * 40) + 'ms';
 
@@ -930,9 +1033,9 @@
       const prev = makePrevNext('‹', currentPage > 0, () => goToPage(currentPage - 1));
       wrap.appendChild(prev);
 
-      const win  = 7;
-      let start  = Math.max(0, currentPage - Math.floor(win / 2));
-      let end    = Math.min(totalPages - 1, start + win - 1);
+      const win = 7;
+      let start = Math.max(0, currentPage - Math.floor(win / 2));
+      let end = Math.min(totalPages - 1, start + win - 1);
       if (end - start < win - 1) start = Math.max(0, end - win + 1);
 
       if (start > 0) {
@@ -954,8 +1057,8 @@
     function makePrevNext(label, enabled, onClick) {
       const btn = document.createElement('button');
       btn.textContent = label;
-      btn.disabled    = !enabled;
-      btn.className   = 'page-btn';
+      btn.disabled = !enabled;
+      btn.className = 'page-btn';
       if (enabled) btn.addEventListener('click', onClick);
       return btn;
     }
@@ -964,8 +1067,8 @@
       const isCurrent = p === currentPage;
       const btn = document.createElement('button');
       btn.textContent = p + 1;
-      btn.disabled    = isCurrent;
-      btn.className   = 'page-btn' + (isCurrent ? ' active' : '');
+      btn.disabled = isCurrent;
+      btn.className = 'page-btn' + (isCurrent ? ' active' : '');
       if (!isCurrent) btn.addEventListener('click', () => goToPage(p));
       return btn;
     }
@@ -973,7 +1076,7 @@
     function makeEllipsis() {
       const s = document.createElement('span');
       s.textContent = '…';
-      s.className   = 'page-ellipsis';
+      s.className = 'page-ellipsis';
       return s;
     }
 
@@ -990,17 +1093,29 @@
       loadingText.textContent = page === 0 ? 'Ricerca in corso...' : `Caricamento pagina ${page + 1}…`;
       searchBtn.disabled = true;
 
-      const html = await fetchHtml(buildUrl(query, page));
+      const fetchResult = await fetchHtml(buildUrl(query, page));
+      const html = fetchResult.html;
+      const status = fetchResult.status;
 
       removeClass(loading, 'visible');
       searchBtn.disabled = false;
 
+      if (status === 404) {
+        addClass(emptyState, 'visible');
+        return;
+      }
       if (!html) {
         showError('Impossibile contattare Radio Radicale. Controlla la connessione o riprova tra poco.');
         return;
       }
 
-      if (page === 0) totalPages = parseTotalPages(html);
+      if (page === 0) {
+        totalPages = parseTotalPages(html);
+        if (searchInterventi.checked) {
+          currentQuery = getCanonicalUrl(html);
+          console.log(currentQuery);
+        }
+      }
 
       const results = parseResults(html);
 
@@ -1025,8 +1140,8 @@
       const query = searchInput.value.trim();
       if (!query) return;
       currentQuery = query;
-      currentPage  = 0;
-      totalPages   = 1;
+      currentPage = 0;
+      totalPages = 1;
       await loadResults(query, 0);
     }
 
@@ -1041,16 +1156,16 @@
         searchHint.textContent = 'I risultati mostrano gli interventi disponibili su Radio Radicale';
       } else {
         pageTitle.textContent = 'Ricerca Processi';
-        pageSubtitle.textContent = 'Cerca le udienze per nome dell\'imputato o della persona coinvolta';
-        searchInput.placeholder = 'es. Massimo Carminati';
+        pageSubtitle.textContent = 'Cerca le udienze per nome dell\'imputato o della persona coinvolta, oltre che chiaramente per nome del processo';
+        searchInput.placeholder = 'es. Mario Rossi';
         searchHint.textContent = 'I risultati mostrano le udienze disponibili su Radio Radicale';
       }
       // Clear results when switching modes
       if (resultsList.children.length > 0) {
         hideAll();
         currentQuery = '';
-        currentPage  = 0;
-        totalPages   = 1;
+        currentPage = 0;
+        totalPages = 1;
       }
     }
 
@@ -1066,8 +1181,8 @@
       searchInput.focus();
       hideAll();
       currentQuery = '';
-      currentPage  = 0;
-      totalPages   = 1;
+      currentPage = 0;
+      totalPages = 1;
     });
 
     searchBtn.addEventListener('click', doSearch);
@@ -1076,4 +1191,5 @@
   </script>
 
 </body>
+
 </html>
