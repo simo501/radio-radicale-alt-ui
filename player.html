@@ -25,6 +25,7 @@
     html, body {
       min-height: 100%;
       min-height: -webkit-fill-available;
+      overflow-x: hidden;
     }
 
     body {
@@ -34,13 +35,15 @@
       display: flex;
       flex-direction: column;
       min-height: 100svh;
-      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
     /* ── DECORATIVE BAR ── */
     .top-bar {
       height: 4px;
       background: linear-gradient(90deg, var(--orange) 0%, #FB923C 50%, #FED7AA 100%);
+      width: 100%;
     }
 
     /* ── HEADER ── */
@@ -49,6 +52,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      width: 100%;
     }
 
     .back-link {
@@ -60,6 +66,8 @@
       color: var(--gray-mid);
       text-decoration: none;
       transition: color 0.15s;
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     .back-link:hover { color: var(--orange); }
@@ -67,6 +75,7 @@
     .back-link svg {
       width: 16px;
       height: 16px;
+      flex-shrink: 0;
     }
 
     .badge-unofficial {
@@ -82,6 +91,8 @@
       border: 1px solid var(--orange-mid);
       padding: 5px 10px;
       border-radius: 100px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .badge-unofficial::before {
@@ -91,6 +102,7 @@
       background: var(--orange);
       border-radius: 50%;
       animation: pulse 2s infinite;
+      flex-shrink: 0;
     }
 
     @keyframes pulse {
@@ -112,16 +124,20 @@
       text-align: center;
       margin-bottom: 32px;
       animation: fadeUp 0.6s ease both;
+      width: 100%;
     }
 
     .page-title h1 {
       font-family: 'Playfair Display', serif;
       font-weight: 900;
-      font-size: clamp(28px, 7vw, 42px);
+      font-size: clamp(24px, 6vw, 42px);
       line-height: 1.1;
       color: var(--black);
       letter-spacing: -0.02em;
       margin-bottom: 8px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
 
     .page-title .subtitle {
@@ -129,6 +145,7 @@
       font-weight: 300;
       color: var(--gray-mid);
       line-height: 1.5;
+      word-break: break-word;
     }
 
     .page-title .curator {
@@ -136,6 +153,7 @@
       font-weight: 400;
       color: var(--gray-mid);
       margin-top: 4px;
+      word-break: break-word;
     }
 
     @keyframes fadeUp {
@@ -147,6 +165,7 @@
     .url-section {
       margin-bottom: 32px;
       animation: fadeUp 0.6s 0.1s ease both;
+      width: 100%;
     }
 
     .url-label {
@@ -162,12 +181,14 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .url-input-wrap {
       position: relative;
-      flex: 1;
-      min-width: 200px;
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .url-input {
@@ -227,6 +248,7 @@
       transition: all 0.18s ease;
       box-shadow: 0 4px 16px rgba(234, 88, 12, 0.25);
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .load-btn:hover {
@@ -256,6 +278,7 @@
       grid-template-columns: 1fr;
       gap: 24px;
       animation: fadeUp 0.6s 0.2s ease both;
+      width: 100%;
     }
 
     @media (min-width: 1024px) {
@@ -269,11 +292,14 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      min-width: 0;
+      width: 100%;
     }
 
     /* ── TRACK SELECTOR ── */
     .track-selector {
       display: none;
+      width: 100%;
     }
 
     .track-selector.visible {
@@ -292,6 +318,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      width: 100%;
     }
 
     .track-btn {
@@ -307,6 +334,7 @@
       transition: all 0.2s;
       font-family: 'DM Sans', sans-serif;
       text-align: left;
+      min-width: 0;
     }
 
     .track-btn:hover {
@@ -336,6 +364,7 @@
     .track-btn-info {
       flex: 1;
       min-width: 0;
+      overflow: hidden;
     }
 
     .track-btn-title {
@@ -344,13 +373,19 @@
       color: var(--black);
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.3;
+      max-height: 2.6em;
+      word-break: break-word;
     }
 
     .track-btn-subtitle {
       font-size: 11px;
       color: var(--gray-mid);
-      margin-top: 2px;
+      margin-top: 4px;
+      white-space: nowrap;
     }
 
     .track-btn-icon {
@@ -375,6 +410,7 @@
       gap: 4px;
       height: 64px;
       margin-bottom: 24px;
+      width: 100%;
     }
 
     .wave-bar {
@@ -409,6 +445,7 @@
     /* ── PROGRESS BAR ── */
     .progress-section {
       margin-bottom: 24px;
+      width: 100%;
     }
 
     .progress-time {
@@ -426,6 +463,7 @@
       background: var(--gray-light);
       border-radius: 100px;
       cursor: pointer;
+      width: 100%;
     }
 
     .progress-bar {
@@ -489,6 +527,7 @@
       flex-direction: column;
       gap: 16px;
       margin-bottom: 24px;
+      width: 100%;
     }
 
     .controls-buttons {
@@ -496,6 +535,7 @@
       align-items: center;
       justify-content: center;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .control-btn {
@@ -510,6 +550,7 @@
       transition: all 0.2s;
       background: var(--gray-light);
       color: var(--gray-dark);
+      flex-shrink: 0;
     }
 
     .control-btn:hover:not(:disabled) {
@@ -563,6 +604,7 @@
       background: var(--orange-light);
       border-radius: 12px;
       margin-bottom: 16px;
+      width: 100%;
     }
 
     .speed-icon {
@@ -572,6 +614,7 @@
 
     .speed-slider {
       flex: 1;
+      min-width: 0;
       height: 6px;
       border-radius: 100px;
       background: var(--orange-mid);
@@ -613,9 +656,10 @@
       font-size: 13px;
       font-weight: 600;
       color: var(--orange);
-      min-width: 48px;
+      min-width: 42px;
       text-align: right;
       font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
     }
 
     /* ── MESSAGES ── */
@@ -626,6 +670,7 @@
       margin-bottom: 16px;
       display: none;
       text-align: center;
+      word-break: break-word;
     }
 
     .message.visible {
@@ -669,6 +714,8 @@
     /* ── INTERVENTI SIDEBAR ── */
     .interventi-container {
       display: none;
+      width: 100%;
+      min-width: 0;
     }
 
     .interventi-container.visible {
@@ -691,12 +738,15 @@
       border-radius: 0 0 12px 12px;
       max-height: 600px;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .intervento-item {
       padding: 16px;
       border-bottom: 1px solid var(--gray-light);
       transition: all 0.2s;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .intervento-item:last-child {
@@ -726,12 +776,15 @@
       font-weight: 600;
       color: var(--black);
       margin-bottom: 4px;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .intervento-role {
       font-size: 11px;
       color: var(--gray-mid);
       margin-bottom: 8px;
+      word-break: break-word;
     }
 
     .intervento-duration {
@@ -743,24 +796,30 @@
       font-size: 11px;
       color: var(--orange);
       margin-top: 4px;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .intervento-title {
       font-size: 13px;
       font-weight: 700;
       color: var(--gray-dark);
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     /* ── FOOTER ── */
     footer {
       padding: 32px 24px;
       text-align: center;
+      width: 100%;
     }
 
     .footer-disclaimer {
       font-size: 13px;
       color: var(--gray-mid);
       margin-bottom: 12px;
+      word-break: break-word;
     }
 
     .footer-disclaimer a {
@@ -781,6 +840,8 @@
       font-size: 13px;
       color: var(--gray-mid);
       padding-top: 8px;
+      flex-wrap: wrap;
+      width: 100%;
     }
 
     .footer-credits a {
@@ -798,6 +859,7 @@
       width: 20px;
       height: 20px;
       transition: color 0.15s;
+      flex-shrink: 0;
     }
 
     .footer-credits a:hover svg {
@@ -824,6 +886,7 @@
     @media (max-width: 640px) {
       header {
         padding: 20px 16px 16px;
+        gap: 8px;
       }
 
       main {
@@ -831,7 +894,7 @@
       }
 
       .page-title h1 {
-        font-size: 28px;
+        font-size: 24px;
       }
 
       .control-btn {
@@ -844,8 +907,57 @@
         height: 64px;
       }
 
+      .controls-buttons {
+        gap: 12px;
+      }
+
       footer {
         padding: 24px 16px;
+      }
+
+      .footer-credits {
+        font-size: 12px;
+        gap: 6px;
+      }
+
+      .footer-disclaimer {
+        font-size: 12px;
+      }
+
+      .url-bar {
+        gap: 8px;
+      }
+
+      .load-btn {
+        width: 100%;
+      }
+
+      .back-link {
+        font-size: 12px;
+      }
+
+      .badge-unofficial {
+        font-size: 9px;
+        padding: 4px 8px;
+      }
+
+      .track-btn {
+        padding: 12px 14px;
+        gap: 10px;
+      }
+
+      .track-btn-number {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+      }
+
+      .track-btn-title {
+        font-size: 13px;
+      }
+
+      .track-btn-subtitle {
+        font-size: 10px;
       }
     }
   </style>
