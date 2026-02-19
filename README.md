@@ -1,10 +1,11 @@
+_unofficial (not affiliated with Radio Radicale)_
+
 # Radio Radicale Alternative UI
 
-_unofficial (not affiliated with Radio Radicale)_
+### serverless and static-hosting ready
 
 Built with ```claude sonnet 4.5``` to explore the model's capabilities and potential
 
-**serverless and static-hosting ready**
 
 ## Under the hood (dead simple)
 
@@ -12,9 +13,9 @@ Radio Radicale uses **HLS** (Http Live Streaming)
 
 #### HLS (briefly)
 
-The streaming file it's split into smaller segments
+- The streaming file it's split into smaller segments
 
-A `.m3u8` file (called _playlist_) keep track of these segments sequentially in order to piece together the stream
+- A `.m3u8` file (called _playlist_) keep track of these segments sequentially in order to piece together the stream
 
 ### Idea
 
